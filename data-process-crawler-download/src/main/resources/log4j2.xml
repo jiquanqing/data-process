@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">  
+			<PatternLayout pattern="%d [%-5p][%t] %m (%C:%F:%L) %n" />
+		</Console>
+		<RollingRandomAccessFile name="allFile" immediateFlush ="false"
+			fileName="logs/crawlers/all.log"
+			filePattern="logs/global-api/$${date:yyyy-MM-dd}/all-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout>
+				<Pattern>%d [%-5p][%t] %m (%C:%F:%L) %n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="200 MB" />
+			</Policies>
+		</RollingRandomAccessFile>
+
+	</Appenders>
+	<Loggers>
+		<AsyncRoot level="info" includeLocation="true">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="allFile" />
+		</AsyncRoot>
+	</Loggers>
+</Configuration>

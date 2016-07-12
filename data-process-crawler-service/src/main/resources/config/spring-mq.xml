@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jms="http://www.springframework.org/schema/jms"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+     http://www.springframework.org/schema/context  
+     http://www.springframework.org/schema/context/spring-context-3.0.xsd  
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+    http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd">
+	
+	<!-- MQ消息 -->
+	<bean id="jmsPooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory"
+		destroy-method="stop">
+		<property name="connectionFactory">
+			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+				<property name="brokerURL" value="${jms.brokerURL}" />
+				<property name="redeliveryPolicy">
+					<bean class="org.apache.activemq.RedeliveryPolicy">
+						<property name="initialRedeliveryDelay" value="${jms.initialRedeliveryDelay:3000}" />
+						<property name="maximumRedeliveries" value="${jms.maximumRedeliveries:6}" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="maxConnections" value="${jms.maxConnections:500}" />
+	</bean>
+
+	<bean id="jmsConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+		<property name="targetConnectionFactory" ref="jmsPooledConnectionFactory"></property>
+	</bean>
+	
+	<!-- 消息发送者客户端 -->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="jmsConnectionFactory" />
+        <property name="defaultDestination" ref="destination" />
+        <!-- 开启订阅模式 -->
+        <property name="pubSubDomain" value="false"/>
+        <property name="receiveTimeout" value="10000" />
+        <!-- deliveryMode, priority, timeToLive 的开关要生效，必须配置为true，默认false-->
+        <property name="explicitQosEnabled" value="true"/>
+        <!-- 发送模式
+             DeliveryMode.NON_PERSISTENT=1:非持久 ;
+             DeliveryMode.PERSISTENT=2:持久
+        -->
+        <property name="deliveryMode" value="1"/>
+    </bean>
+    
+     <bean id="destination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="my-queue" />
+    </bean>
+    
+	<!-- 消息订阅模式 -->  
+    <bean id="activeMQTopic" class="org.apache.activemq.command.ActiveMQTopic">  
+       	<!-- 订阅消息的名字 -->  
+       	<constructor-arg index="0" value="VirtualTopic.global_ScreenResolution_Change"/>  
+    </bean> 
+
+	<jms:listener-container connection-factory="jmsConnectionFactory"
+		acknowledge="transacted">
+	</jms:listener-container>
+</beans>
