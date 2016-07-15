@@ -8,32 +8,25 @@
 		<artifactId>data-process-platform</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-
-	<groupId>data-process-platform</groupId>
-	<artifactId>data-process-crawler-download</artifactId>
+	
+	<groupId>data-process-model</groupId>
+	<artifactId>data-process-model</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-
-	<name>data-process-crawler-download Maven Webapp</name>
+	
+	<name>data-process-model</name>
 	<url>http://maven.apache.org</url>
-
-
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
 	<dependencies>
 		<dependency>
-			<groupId>data-process-platform</groupId>
-			<artifactId>data-process-crawler-service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>data-process-model</groupId>
-			<artifactId>data-process-model</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<finalName>data-process-crawler-download</finalName>
-	</build>
+	
 </project>

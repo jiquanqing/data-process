@@ -8,12 +8,15 @@
 		<artifactId>data-process-platform</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	
 	<groupId>data-process-platform</groupId>
 	<artifactId>data-process-crawler-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
+	
 	<name>data-process-crawler-service Maven Webapp</name>
 	<url>http://maven.apache.org</url>
+	
 	<build>
 		<finalName>data-process-crawler-service</finalName>
 	</build>
