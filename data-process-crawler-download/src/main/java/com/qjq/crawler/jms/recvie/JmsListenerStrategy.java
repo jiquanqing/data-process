@@ -1,4 +1,4 @@
-package com.qjq.crawler.jms;
+package com.qjq.crawler.jms.recvie;
 
 public interface JmsListenerStrategy {
 

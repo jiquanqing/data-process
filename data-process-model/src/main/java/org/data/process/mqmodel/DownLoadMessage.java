@@ -12,6 +12,7 @@ public class DownLoadMessage implements Serializable {
     private String url;
     private String jobName;
     private String params;
+    private Integer deep;
 
     public String getUrl() {
         return url;
@@ -35,6 +36,14 @@ public class DownLoadMessage implements Serializable {
 
     public void setParams(String params) {
         this.params = params;
+    }
+
+    public Integer getDeep() {
+        return deep;
+    }
+
+    public void setDeep(Integer deep) {
+        this.deep = deep;
     }
 
 }

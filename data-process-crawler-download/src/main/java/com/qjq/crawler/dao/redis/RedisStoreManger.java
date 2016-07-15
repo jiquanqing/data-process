@@ -24,10 +24,9 @@ import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
-
 @Service
 public class RedisStoreManger {
-    
+
     @Autowired
     JedisPool jedisPool;
 
@@ -263,4 +262,60 @@ public class RedisStoreManger {
         decompresser.end();
         return output;
     }
+
+    /**
+     * 计数器减1
+     * 
+     * @param key
+     * @return
+     */
+    public long decr(String key) {
+        Jedis jedis = jedisPool.getResource();
+        try {
+            long value = jedis.decr(key);
+            return value;
+        } finally {
+            jedisPool.returnResource(jedis);
+        }
+    }
+
+    /**
+     * 计数器加1
+     * 
+     * @param key
+     * @return
+     */
+    public long incr(String key) {
+        Jedis jedis = jedisPool.getResource();
+        try {
+            long value = jedis.incr(key);
+            return value;
+        } finally {
+            jedisPool.returnResource(jedis);
+        }
+    }
+
+    public void hset(String key, int value, int seconds) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            jedis.setex(key, seconds, String.valueOf(value));
+        } catch (Exception e) {
+        } finally {
+            if (null != jedis) {
+                jedisPool.returnResource(jedis);
+            }
+        }
+    }
+
+    public String get(String key) {
+        Jedis jedis = jedisPool.getResource();
+        try {
+            String str = jedis.get(key);
+            return str;
+        } finally {
+            jedisPool.returnResource(jedis);
+        }
+    }
+
 }

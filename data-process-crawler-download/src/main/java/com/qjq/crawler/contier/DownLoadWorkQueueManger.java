@@ -11,7 +11,7 @@ public class DownLoadWorkQueueManger {
     private Map<String, DownLoadWorkQueue> workQueue = new HashMap<String, DownLoadWorkQueue>();
 
     public DownLoadWorkQueue addWorkQueue(String queueName, int queueSize) {
-        DownLoadWorkQueue downLoadWorkQueue = new DownLoadWorkQueue(queueName, queueSize);
+        DownLoadWorkQueue downLoadWorkQueue = new DownLoadWorkQueue(queueName, queueSize, -1);
         workQueue.put(queueName, downLoadWorkQueue);
         return downLoadWorkQueue;
     }

@@ -1,4 +1,4 @@
-package com.qjq.crawler.jms;
+package com.qjq.crawler.jms.recvie;
 
 import java.util.ArrayList;
 import java.util.List;

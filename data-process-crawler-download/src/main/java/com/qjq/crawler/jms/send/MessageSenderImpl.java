@@ -1,4 +1,4 @@
-package com.qjq.crawler.jms;
+package com.qjq.crawler.jms.send;
 
 import javax.jms.JMSException;
 import javax.jms.Message;

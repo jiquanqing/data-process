@@ -1,10 +1,5 @@
 package com.qjq.crawler.download.service.impl;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import org.data.process.mqmodel.DownLoadMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.qjq.crawler.contier.DownLoadWorkQueue;
 import com.qjq.crawler.contier.DownLoadWorkQueueManger;
+import com.qjq.crawler.dao.mongo.HtmlRepository;
+import com.qjq.crawler.domain.HtmlObject;
 import com.qjq.crawler.download.service.DownLoadService;
-import com.qjq.crawler.jms.MessageSender;
+import com.qjq.crawler.jms.send.MessageSender;
 import com.qjq.crawler.utils.HttpRequest;
 import com.qjq.crawler.utils.UidUtils;
 import com.qjq.crawler.utils.UtilJson;
@@ -26,9 +23,8 @@ public class DownLoadServiceImpl implements DownLoadService {
 
     @Autowired
     MessageSender messageSender;
-
-    ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(20, 100, 60, TimeUnit.MILLISECONDS,
-            new LinkedBlockingQueue<Runnable>(), Executors.defaultThreadFactory());
+    @Autowired
+    HtmlRepository htmlRepository;
 
     @Autowired
     DownLoadWorkQueueManger workQueueManger;
@@ -49,22 +45,32 @@ public class DownLoadServiceImpl implements DownLoadService {
     }
 
     public void schudel(DownLoadMessage message) {
-        DownLoadWorkQueue downLoadWorkQueue = workQueueManger.getWorkQueue().get(message.getJobName());
-        String uid = UidUtils.getUid(message.getUrl());
-        String content = null;
         try {
-            content = HttpRequest.sendGet(message.getUrl(), message.getParams());
-        } catch (Exception e) {
+            DownLoadWorkQueue downLoadWorkQueue = workQueueManger.getWorkQueue().get(message.getJobName());
+            String uid = UidUtils.getUid(message.getUrl());
+            String content = null;
             try {
-                if (content == null || content.equals("")) {
-                    content = HttpRequest.sendPost(message.getUrl(), message.getParams());
+                content = HttpRequest.sendGet(message.getUrl(), message.getParams());
+            } catch (Exception e) {
+                try {
+                    if (content == null || content.equals("")) {
+                        content = HttpRequest.sendPost(message.getUrl(), message.getParams());
+                    }
+                } catch (Exception e2) {
+                    content = "url" + message.getUrl() + "下载失败";
+                    logger.error("url={}，下载失败", message.getUrl());
                 }
-            } catch (Exception e2) {
-                content = "url" + message.getUrl() + "下载失败";
-                logger.error("url={}，下载失败", message.getUrl());
             }
+            HtmlObject htmlObject = new HtmlObject();
+            htmlObject.setContent(content);
+            htmlObject.setDowntime(System.currentTimeMillis() + "");
+            htmlObject.setUid(uid);
+
+            htmlRepository.insert(htmlObject);
+            downLoadWorkQueue.incDownloadTot();
+        } catch (Exception e) {
+            logger.error("下载失败 url={}", message.getUrl());
         }
-        downLoadWorkQueue.incDownloadTot();
     }
 
     public void extendsUrl(String content, String jobName) {
