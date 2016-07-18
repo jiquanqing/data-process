@@ -2,13 +2,14 @@ package com.qjq.crawler.service.impl;
 
 import java.util.List;
 
+import org.data.process.model.VariablesField;
 import org.data.process.mqmodel.CrawlerMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qjq.crawler.domain.CrawlerConfig;
+import com.qjq.crawler.domain.CrawlerJob;
 import com.qjq.crawler.domain.HorizontalCrawlerConfig;
-import com.qjq.crawler.domain.VariablesField;
 import com.qjq.crawler.jms.MessageSender;
 import com.qjq.crawler.service.DonwloadService;
 import com.qjq.crawler.service.HorizontalCrawlerService;
@@ -16,7 +17,7 @@ import com.qjq.crawler.utils.UidUtils;
 import com.qjq.crawler.utils.UtilJson;
 
 @Service
-public class HorizontalCrawlerServiceImpl implements HorizontalCrawlerService {
+public class HorizontalCrawlerServiceImpl extends CrawlerJobServiceImpl implements HorizontalCrawlerService {
 
     @Autowired
     DonwloadService donwloadService;
@@ -30,6 +31,8 @@ public class HorizontalCrawlerServiceImpl implements HorizontalCrawlerService {
         for (VariablesField variablesField : fields) {
             Long start = variablesField.getStartPoint();
             Long end = variablesField.getEndPoint();
+            CrawlerJob crawlerJob = new CrawlerJob();
+            
             for (Long var = start; var < end; var++) {
                 String params = variablesField.getFieldName() + "=" + var;
                 String url = creatUrl(baseUrl, params);
@@ -37,13 +40,12 @@ public class HorizontalCrawlerServiceImpl implements HorizontalCrawlerService {
                 crawlerMessage.setJobName(creatJobName(horizontalCrawlerConfig));
                 messageSender.hander(UtilJson.writerWithDefaultPrettyPrinter(crawlerMessage)); // 发送mq到队列里面
                                                                                                // 通知下载系统下载
-                // 发送MQ String content = donwloadService.donwload(basUrl,
-                // params);
+                insertCrawlerJob(crawlerJob);           //任务插入数据库
             }
         }
     }
 
-    public String creatJobName(CrawlerConfig crawlerConfig) {
+    public String creatJobName(HorizontalCrawlerConfig crawlerConfig) {
         String base = crawlerConfig.getBaseUrl() + System.currentTimeMillis();
         return UidUtils.getUid(base);
     }

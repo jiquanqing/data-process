@@ -2,6 +2,7 @@ package com.qjq.crawler.dao.mongo;
 
 import java.util.List;
 
+import org.data.process.model.HtmlObject;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +11,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import com.qjq.crawler.domain.HtmlObject;
 
 @Repository
 public class HtmlRepository implements AbstractRepository, InitializingBean {

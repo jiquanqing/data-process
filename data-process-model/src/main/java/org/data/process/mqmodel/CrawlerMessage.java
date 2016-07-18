@@ -1,7 +1,7 @@
 package org.data.process.mqmodel;
 
 public class CrawlerMessage {
-    
+
     private String jobName;
     private String baseUrl;
 

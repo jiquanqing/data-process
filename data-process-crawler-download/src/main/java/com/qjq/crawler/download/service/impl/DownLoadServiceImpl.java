@@ -1,5 +1,6 @@
 package com.qjq.crawler.download.service.impl;
 
+import org.data.process.model.HtmlObject;
 import org.data.process.mqmodel.DownLoadMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.qjq.crawler.contier.DownLoadWorkQueue;
 import com.qjq.crawler.contier.DownLoadWorkQueueManger;
 import com.qjq.crawler.dao.mongo.HtmlRepository;
-import com.qjq.crawler.domain.HtmlObject;
 import com.qjq.crawler.download.service.DownLoadService;
 import com.qjq.crawler.jms.send.MessageSender;
 import com.qjq.crawler.utils.HttpRequest;

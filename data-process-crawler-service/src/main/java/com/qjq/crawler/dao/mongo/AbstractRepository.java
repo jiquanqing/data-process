@@ -2,7 +2,8 @@ package com.qjq.crawler.dao.mongo;
 
 import java.util.List;
 
-import com.qjq.crawler.domain.HtmlObject;
+import org.data.process.model.HtmlObject;
+
 
 public interface AbstractRepository {
 

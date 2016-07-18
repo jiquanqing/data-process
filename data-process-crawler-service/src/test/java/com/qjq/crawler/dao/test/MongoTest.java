@@ -1,12 +1,12 @@
 package com.qjq.crawler.dao.test;
 
+import org.data.process.model.HtmlObject;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.qjq.crawler.dao.mongo.HtmlRepository;
-import com.qjq.crawler.domain.HtmlObject;
 
 public class MongoTest extends AbstractTest {
 
