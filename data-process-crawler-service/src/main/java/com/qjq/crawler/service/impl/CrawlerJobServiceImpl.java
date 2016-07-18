@@ -17,5 +17,7 @@ public class CrawlerJobServiceImpl implements CrawlerJobService {
     public int insertCrawlerJob(CrawlerJob crawlerJob) {
         return crawlerJobMapper.insert(crawlerJob);
     }
+    
+    
 
 }

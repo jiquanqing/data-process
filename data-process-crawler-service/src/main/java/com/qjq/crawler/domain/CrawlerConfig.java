@@ -2,6 +2,8 @@ package com.qjq.crawler.domain;
 
 import java.util.List;
 
+import org.data.process.model.VariablesField;
+
 /**
  * 
  * Description: TODO 配置
@@ -31,6 +33,20 @@ public class CrawlerConfig {
     private String jobId;       //根据抓取配置生成一个唯一的ID
     
     private List<String> torrentUrl;    //入口种子url
+    
+    private Integer maxDomain;
+    
+    private List<VariablesField> variablesFields; // 纵向抓取时可变的字段
+
+    public List<VariablesField> getVariablesFields() {
+        return variablesFields;
+    }
+
+    public void setVariablesFields(List<VariablesField> variablesFields) {
+        this.variablesFields = variablesFields;
+    }
+
+    
     
     public String getBaseUrl() {
         return baseUrl;
@@ -103,6 +119,14 @@ public class CrawlerConfig {
 
     public void setTorrentUrl(List<String> torrentUrl) {
         this.torrentUrl = torrentUrl;
+    }
+
+    public Integer getMaxDomain() {
+        return maxDomain;
+    }
+
+    public void setMaxDomain(Integer maxDomain) {
+        this.maxDomain = maxDomain;
     }
     
 }

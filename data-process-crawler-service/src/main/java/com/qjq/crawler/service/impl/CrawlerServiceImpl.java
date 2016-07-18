@@ -1,5 +1,6 @@
 package com.qjq.crawler.service.impl;
 
+import org.data.process.model.CrawlerJobStatus;
 import org.data.process.model.CrawlerTypeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import com.qjq.crawler.domain.CrawlerJob;
 import com.qjq.crawler.service.CrawlerJobService;
 import com.qjq.crawler.service.CrawlerService;
 import com.qjq.crawler.service.DonwloadService;
+import com.qjq.crawler.service.HorizontalCrawlerService;
 
 @Service
 public class CrawlerServiceImpl implements CrawlerService {
@@ -21,21 +23,17 @@ public class CrawlerServiceImpl implements CrawlerService {
     DonwloadService donwloadService;
     @Autowired
     CrawlerJobService crawlerJobService;
+    @Autowired
+    HorizontalCrawlerService horizontalCrawlerService;
 
     public void crawler(CrawlerConfig crawlerConfig) {
         logger.info("开始进行");
         if (crawlerConfig != null) {
             if (crawlerConfig.getCrawlerType() == CrawlerTypeEnum.horizontal.getId()) {
-
+                horizontalCrawlerService.handle(crawlerConfig);
             }
         }
     }
 
-    public Boolean insert(CrawlerJob crawlerJob) {
-        int result = crawlerJobService.insertCrawlerJob(crawlerJob);
-        if (result > 0)
-            return true;
-        return false;
-    }
-
+   
 }

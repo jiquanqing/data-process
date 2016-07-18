@@ -1,5 +1,6 @@
 package com.qjq.crawler.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.data.process.model.VariablesField;
@@ -9,29 +10,45 @@ import org.springframework.stereotype.Service;
 
 import com.qjq.crawler.domain.CrawlerConfig;
 import com.qjq.crawler.domain.CrawlerJob;
-import com.qjq.crawler.domain.HorizontalCrawlerConfig;
+import com.qjq.crawler.domain.JobConfig;
 import com.qjq.crawler.jms.MessageSender;
 import com.qjq.crawler.service.DonwloadService;
 import com.qjq.crawler.service.HorizontalCrawlerService;
-import com.qjq.crawler.utils.UidUtils;
 import com.qjq.crawler.utils.UtilJson;
 
 @Service
-public class HorizontalCrawlerServiceImpl extends CrawlerJobServiceImpl implements HorizontalCrawlerService {
+public class HorizontalCrawlerServiceImpl extends BaseCrawlerService implements HorizontalCrawlerService {
 
     @Autowired
     DonwloadService donwloadService;
     @Autowired
     MessageSender messageSender;
 
-    public void handle(HorizontalCrawlerConfig horizontalCrawlerConfig) {
+    public void handle(CrawlerConfig horizontalCrawlerConfig) {
         String baseUrl = horizontalCrawlerConfig.getBaseUrl();
         List<VariablesField> fields = horizontalCrawlerConfig.getVariablesFields();
+        
+       
+        JobConfig jobConfig = new JobConfig();
+        CrawlerJob crawlerJob = creatByConfig(horizontalCrawlerConfig);
+      
+        jobConfig.setVariablesFields(fields);
+        jobConfig.setCrawlerType(horizontalCrawlerConfig.getCrawlerType());
+        crawlerJob.setJobconfig(UtilJson.writerWithDefaultPrettyPrinter(jobConfig));
+        crawlerJob.setUrllistid("");
+        crawlerJob.setCtime(new Date());
+        crawlerJob.setMtime(new Date());
+
         CrawlerMessage crawlerMessage = new CrawlerMessage();
-        for (VariablesField variablesField : fields) {
+        crawlerMessage.setBaseUrl(baseUrl);
+        crawlerMessage.setJobId(crawlerJob.getJobid());
+        messageSender.hander(UtilJson.writerWithDefaultPrettyPrinter(crawlerMessage)); // 发送mq到队列里面
+                                                                                       // 通知下载系统下载
+        crawlerJobService.insertCrawlerJob(crawlerJob);           //任务插入数据库
+        
+     /*   for (VariablesField variablesField : fields) {
             Long start = variablesField.getStartPoint();
             Long end = variablesField.getEndPoint();
-            CrawlerJob crawlerJob = new CrawlerJob();
             
             for (Long var = start; var < end; var++) {
                 String params = variablesField.getFieldName() + "=" + var;
@@ -42,13 +59,10 @@ public class HorizontalCrawlerServiceImpl extends CrawlerJobServiceImpl implemen
                                                                                                // 通知下载系统下载
                 insertCrawlerJob(crawlerJob);           //任务插入数据库
             }
-        }
+        }*/
     }
 
-    public String creatJobName(HorizontalCrawlerConfig crawlerConfig) {
-        String base = crawlerConfig.getBaseUrl() + System.currentTimeMillis();
-        return UidUtils.getUid(base);
-    }
+   
 
     public String creatUrl(String baseUrl, String params) {
         StringBuffer url = new StringBuffer();

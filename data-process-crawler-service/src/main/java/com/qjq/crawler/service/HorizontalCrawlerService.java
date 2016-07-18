@@ -1,9 +1,9 @@
 package com.qjq.crawler.service;
 
-import com.qjq.crawler.domain.HorizontalCrawlerConfig;
+import com.qjq.crawler.domain.CrawlerConfig;
 
 
 public interface HorizontalCrawlerService {
 
-    public void handle(HorizontalCrawlerConfig horizontalCrawlerConfig);
+    public void handle(CrawlerConfig horizontalCrawlerConfig);
 }
