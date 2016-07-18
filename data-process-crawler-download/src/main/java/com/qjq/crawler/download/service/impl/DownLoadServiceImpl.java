@@ -65,6 +65,7 @@ public class DownLoadServiceImpl implements DownLoadService {
             htmlObject.setContent(content);
             htmlObject.setDowntime(System.currentTimeMillis() + "");
             htmlObject.setUid(uid);
+            htmlObject.setUrl(message.getUrl());
 
             htmlRepository.insert(htmlObject);
             downLoadWorkQueue.incDownloadTot();
