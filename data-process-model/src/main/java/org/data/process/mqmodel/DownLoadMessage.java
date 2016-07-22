@@ -10,7 +10,7 @@ public class DownLoadMessage implements Serializable {
     private static final long serialVersionUID = 6276562652042256939L;
 
     private String url;
-    private String jobName;
+    private String jobId;
     private String params;
     private Integer deep;
 
@@ -22,12 +22,12 @@ public class DownLoadMessage implements Serializable {
         this.url = url;
     }
 
-    public String getJobName() {
-        return jobName;
+    public String getJobId() {
+        return jobId;
     }
 
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
+    public void setJobId(String jobName) {
+        this.jobId = jobName;
     }
 
     public String getParams() {

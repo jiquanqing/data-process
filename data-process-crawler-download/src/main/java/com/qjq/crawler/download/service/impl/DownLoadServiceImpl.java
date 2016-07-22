@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.qjq.crawler.contier.DownLoadWorkQueue;
 import com.qjq.crawler.contier.DownLoadWorkQueueManger;
 import com.qjq.crawler.dao.mongo.HtmlRepository;
+import com.qjq.crawler.dao.redis.RedisStoreManger;
 import com.qjq.crawler.download.service.DownLoadService;
 import com.qjq.crawler.jms.send.MessageSender;
 import com.qjq.crawler.utils.HttpRequest;
@@ -28,9 +29,24 @@ public class DownLoadServiceImpl implements DownLoadService {
 
     @Autowired
     DownLoadWorkQueueManger workQueueManger;
+    @Autowired
+    RedisStoreManger redisStoreManger;
+
+    private int uidTimeOut = 60 * 60 * 24 * 10;
 
     @Override
     public void addSeed(String url, String jobName) {
+
+        String uid = UidUtils.getUid(url);
+        try {
+            if (redisStoreManger.existByRedis(uid, null)) {
+                logger.info("uid = {},已经存在,skip", uid);
+                return;
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
         DownLoadWorkQueue queue = null;
         if (workQueueManger.getWorkQueue().containsKey(jobName)) {
             queue = workQueueManger.getWorkQueue().get(jobName);
@@ -40,13 +56,20 @@ public class DownLoadServiceImpl implements DownLoadService {
         queue.incAllTot();
         DownLoadMessage downLoadMessage = new DownLoadMessage();
         downLoadMessage.setUrl(url);
-        downLoadMessage.setJobName(jobName);
+        downLoadMessage.setJobId(jobName);
         messageSender.hander(UtilJson.writerWithDefaultPrettyPrinter(downLoadMessage));
+
+        try {
+            redisStoreManger.putToRedis(uid, null, 1, uidTimeOut);
+        } catch (Exception e) {
+            logger.error("uid = {},put to redis error", uid, e);
+        }
+
     }
 
     public void schudel(DownLoadMessage message) {
         try {
-            DownLoadWorkQueue downLoadWorkQueue = workQueueManger.getWorkQueue().get(message.getJobName());
+            DownLoadWorkQueue downLoadWorkQueue = workQueueManger.getWorkQueue().get(message.getJobId());
             String uid = UidUtils.getUid(message.getUrl());
             String content = null;
             try {
