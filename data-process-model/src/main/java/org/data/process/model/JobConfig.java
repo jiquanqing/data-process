@@ -1,8 +1,6 @@
-package com.qjq.crawler.domain;
+package org.data.process.model;
 
 import java.util.List;
-
-import org.data.process.model.VariablesField;
 
 public class JobConfig {
     

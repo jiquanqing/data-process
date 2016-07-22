@@ -35,7 +35,7 @@ public class DownLoadServiceImpl implements DownLoadService {
     private int uidTimeOut = 60 * 60 * 24 * 10;
 
     @Override
-    public void addSeed(String url, String jobName) {
+    public void addSeed(String url, String jobId) {
 
         String uid = UidUtils.getUid(url);
         try {
@@ -48,15 +48,15 @@ public class DownLoadServiceImpl implements DownLoadService {
         }
 
         DownLoadWorkQueue queue = null;
-        if (workQueueManger.getWorkQueue().containsKey(jobName)) {
-            queue = workQueueManger.getWorkQueue().get(jobName);
+        if (workQueueManger.getWorkQueue().containsKey(jobId)) {
+            queue = workQueueManger.getWorkQueue().get(jobId);
         } else {
-            queue = workQueueManger.addWorkQueue(jobName, -1);
+            queue = workQueueManger.addWorkQueue(jobId, -1);
         }
         queue.incAllTot();
         DownLoadMessage downLoadMessage = new DownLoadMessage();
         downLoadMessage.setUrl(url);
-        downLoadMessage.setJobId(jobName);
+        downLoadMessage.setJobId(jobId);
         messageSender.hander(UtilJson.writerWithDefaultPrettyPrinter(downLoadMessage));
 
         try {

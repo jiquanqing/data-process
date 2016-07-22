@@ -3,6 +3,7 @@ package com.qjq.crawler.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.data.process.model.JobConfig;
 import org.data.process.model.VariablesField;
 import org.data.process.mqmodel.CrawlerMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.qjq.crawler.domain.CrawlerConfig;
 import com.qjq.crawler.domain.CrawlerJob;
-import com.qjq.crawler.domain.JobConfig;
 import com.qjq.crawler.jms.MessageSender;
 import com.qjq.crawler.service.DonwloadService;
 import com.qjq.crawler.service.HorizontalCrawlerService;
