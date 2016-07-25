@@ -1,13 +1,13 @@
 package com.qjq.crawler.service.impl;
 
 import org.data.process.model.CrawlerJobStatus;
+import org.data.process.utils.UidUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qjq.crawler.domain.CrawlerConfig;
 import com.qjq.crawler.domain.CrawlerJob;
 import com.qjq.crawler.service.CrawlerJobService;
-import com.qjq.crawler.utils.UidUtils;
 
 @Service
 public class BaseCrawlerService {

@@ -20,14 +20,14 @@ public class HorCrawlerTest extends AbstractTest {
     @Test
     public void test() {
         CrawlerConfig crawlerConfig = new CrawlerConfig();
-        crawlerConfig.setBaseUrl("http://guba.eastmoney.com/list,code,f.html");
+        crawlerConfig.setBaseUrl("http://guba.astmoe.com/list,code,f.html");
         crawlerConfig.setCrawlerType(CrawlerTypeEnum.horizontal.getId());
         crawlerConfig.setExtendDeep(0);
         crawlerConfig.setMaxDomain(100);
         VariablesField variablesField = new VariablesField();
         variablesField.setFieldName("code");
-        variablesField.setStartPoint(000001l);
-        variablesField.setEndPoint(666666l);
+        variablesField.setStartPoint(1L);
+        variablesField.setEndPoint(300L);
         List<VariablesField> fields = new ArrayList<VariablesField>();
         fields.add(variablesField);
         crawlerConfig.setVariablesFields(fields);

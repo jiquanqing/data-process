@@ -1,21 +1,25 @@
 package com.qjq.crawler.download.service.impl;
 
+import java.util.Date;
+
 import org.data.process.model.HtmlObject;
 import org.data.process.mqmodel.DownLoadMessage;
+import org.data.process.utils.UidUtils;
+import org.data.process.utils.UtilJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.qjq.crawler.contier.DownLoadWorkQueue;
-import com.qjq.crawler.contier.DownLoadWorkQueueManger;
-import com.qjq.crawler.dao.mongo.HtmlRepository;
-import com.qjq.crawler.dao.redis.RedisStoreManger;
+import com.qjq.crawler.download.contier.DownLoadWorkQueue;
+import com.qjq.crawler.download.contier.DownLoadWorkQueueManger;
+import com.qjq.crawler.download.dao.mongo.HtmlRepository;
+import com.qjq.crawler.download.dao.mysql.CrawlerUrlJobMapper;
+import com.qjq.crawler.download.dao.redis.RedisStoreManger;
+import com.qjq.crawler.download.domain.CrawlerUrlJob;
+import com.qjq.crawler.download.jms.send.MessageSender;
 import com.qjq.crawler.download.service.DownLoadService;
-import com.qjq.crawler.jms.send.MessageSender;
-import com.qjq.crawler.utils.HttpRequest;
-import com.qjq.crawler.utils.UidUtils;
-import com.qjq.crawler.utils.UtilJson;
+import com.qjq.crawler.download.utils.HttpRequest;
 
 @Service
 public class DownLoadServiceImpl implements DownLoadService {
@@ -31,6 +35,8 @@ public class DownLoadServiceImpl implements DownLoadService {
     DownLoadWorkQueueManger workQueueManger;
     @Autowired
     RedisStoreManger redisStoreManger;
+    @Autowired
+    CrawlerUrlJobMapper crawlerUrlJobMapper;
 
     private int uidTimeOut = 60 * 60 * 24 * 10;
 
@@ -40,6 +46,13 @@ public class DownLoadServiceImpl implements DownLoadService {
         String uid = UidUtils.getUid(url);
         try {
             if (redisStoreManger.existByRedis(uid, null)) {
+                CrawlerUrlJob crawlerUrlJob = new CrawlerUrlJob();
+                crawlerUrlJob.setCtime(new Date());
+                crawlerUrlJob.setIsvalid(1);
+                crawlerUrlJob.setJobid(jobId);
+                crawlerUrlJob.setUid(uid);
+                crawlerUrlJobMapper.insert(crawlerUrlJob);
+                workQueueManger.incDownloadTot(jobId);
                 logger.info("uid = {},已经存在,skip", uid);
                 return;
             }
@@ -53,7 +66,7 @@ public class DownLoadServiceImpl implements DownLoadService {
         } else {
             queue = workQueueManger.addWorkQueue(jobId, -1);
         }
-        queue.incAllTot();
+        workQueueManger.incAllTot(jobId);
         DownLoadMessage downLoadMessage = new DownLoadMessage();
         downLoadMessage.setUrl(url);
         downLoadMessage.setJobId(jobId);
@@ -69,7 +82,6 @@ public class DownLoadServiceImpl implements DownLoadService {
 
     public void schudel(DownLoadMessage message) {
         try {
-            DownLoadWorkQueue downLoadWorkQueue = workQueueManger.getWorkQueue().get(message.getJobId());
             String uid = UidUtils.getUid(message.getUrl());
             String content = null;
             try {
@@ -91,7 +103,14 @@ public class DownLoadServiceImpl implements DownLoadService {
             htmlObject.setUrl(message.getUrl());
 
             htmlRepository.insert(htmlObject);
-            downLoadWorkQueue.incDownloadTot();
+
+            CrawlerUrlJob crawlerUrlJob = new CrawlerUrlJob();
+            crawlerUrlJob.setCtime(new Date());
+            crawlerUrlJob.setIsvalid(1);
+            crawlerUrlJob.setJobid(message.getJobId());
+            crawlerUrlJob.setUid(uid);
+            crawlerUrlJobMapper.insert(crawlerUrlJob);
+            workQueueManger.incDownloadTot(message.getJobId());
         } catch (Exception e) {
             logger.error("下载失败 url={}", message.getUrl());
         }

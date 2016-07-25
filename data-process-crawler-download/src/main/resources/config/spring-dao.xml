@@ -41,7 +41,7 @@
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.qjq.crawler.dao.mysql" />
+		<property name="basePackage" value="com.qjq.crawler.download.dao.mysql" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 
