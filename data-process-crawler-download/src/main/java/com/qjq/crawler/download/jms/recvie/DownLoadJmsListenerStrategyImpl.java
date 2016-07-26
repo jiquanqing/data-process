@@ -20,7 +20,7 @@ public class DownLoadJmsListenerStrategyImpl implements JmsListenerStrategy {
 
     private static Logger logger = LoggerFactory.getLogger(DownLoadJmsListenerStrategyImpl.class);
 
-    private String jmsQueue = "down-queue";
+    private String jmsQueue = "Crawler_Service_DownLoad_Queue";
 
     @Autowired
     DownLoadService downLoadService;

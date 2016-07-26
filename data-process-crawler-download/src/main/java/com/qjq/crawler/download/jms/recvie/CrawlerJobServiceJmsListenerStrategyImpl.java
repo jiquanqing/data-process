@@ -30,7 +30,7 @@ public class CrawlerJobServiceJmsListenerStrategyImpl implements JmsListenerStra
 
     private static Logger logger = LoggerFactory.getLogger(CrawlerJobServiceJmsListenerStrategyImpl.class);
 
-    private String jmsQueue = "my-queue";
+    private String jmsQueue = "Crawler_Service_Job_Queue";
 
     @Autowired
     CrawlerJobMapper crawlerJobMapper;
@@ -63,11 +63,12 @@ public class CrawlerJobServiceJmsListenerStrategyImpl implements JmsListenerStra
                         for (Long var = start; var < end; var++) {
                             String params = variablesField.getFieldName() + "=" + var;
                             String url = creatUrl(crawlerMessage.getBaseUrl(), params);
-                            downLoadService.addSeed(url, crawlerJob.getJobid());
+                            downLoadService.addSeed(url, crawlerJob.getJobid(), 0, config.getSleepTime());
                         }
                     }
                 } else {
-                    
+                    downLoadService.addSeed(crawlerMessage.getBaseUrl(), crawlerJob.getJobid(), crawlerJob.getMaxdepth(),
+                            config.getSleepTime());
                 }
             }
 

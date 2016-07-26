@@ -1,6 +1,9 @@
 package com.qjq.crawler.download.service.impl;
 
 import java.util.Date;
+import java.util.Timer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.data.process.model.HtmlObject;
 import org.data.process.mqmodel.DownLoadMessage;
@@ -26,11 +29,13 @@ public class DownLoadServiceImpl implements DownLoadService {
 
     private static Logger logger = LoggerFactory.getLogger(DownLoadServiceImpl.class);
 
+    // 获取扩展url的正则 是否可以考虑用xpaths
+    private static Pattern url_pattern = Pattern.compile("<a.*?href=[\"']?((https?://)?/?[^\"']+)[\"']?.*?>(.+)</a>");
+
     @Autowired
     MessageSender messageSender;
     @Autowired
     HtmlRepository htmlRepository;
-
     @Autowired
     DownLoadWorkQueueManger workQueueManger;
     @Autowired
@@ -41,8 +46,17 @@ public class DownLoadServiceImpl implements DownLoadService {
     private int uidTimeOut = 60 * 60 * 24 * 10;
 
     @Override
-    public void addSeed(String url, String jobId) {
+    public void addSeed(String url, String jobId, Integer deep, Integer sleep) {
 
+        if (deep == null)
+            deep = 0;
+        if (sleep == null)
+            sleep = 5000; // 默认的下载间隔为5s
+        try {
+            Thread.sleep(Long.valueOf(sleep));
+        } catch (InterruptedException ee) {
+            logger.error("延时出现问题,e", ee);
+        }
         String uid = UidUtils.getUid(url);
         try {
             if (redisStoreManger.existByRedis(uid, null)) {
@@ -70,6 +84,7 @@ public class DownLoadServiceImpl implements DownLoadService {
         DownLoadMessage downLoadMessage = new DownLoadMessage();
         downLoadMessage.setUrl(url);
         downLoadMessage.setJobId(jobId);
+        downLoadMessage.setDeep(deep);
         messageSender.hander(UtilJson.writerWithDefaultPrettyPrinter(downLoadMessage));
 
         try {
@@ -116,7 +131,37 @@ public class DownLoadServiceImpl implements DownLoadService {
         }
     }
 
-    public void extendsUrl(String content, String jobName) {
+    public void extendsUrl(String content, DownLoadMessage downLoadMessage) {
+        Matcher matcher = url_pattern.matcher(content);
+        String baseUrl = getBaseUrl(downLoadMessage.getUrl()); // 得到域名
+        while (matcher.find()) {
+            String extendUrl = matcher.group(1).trim();
+            if (!extendUrl.startsWith("http")) {
+                if (extendUrl.startsWith("/")) {
+                    extendUrl = baseUrl + extendUrl;
+                } else {
+                    extendUrl = baseUrl + "/" + extendUrl;
+                }
+            }
+            int curDeep = getUrlDeep(extendUrl);
+            if (curDeep < downLoadMessage.getDeep()) {
+                addSeed(extendUrl, downLoadMessage.getJobId(), downLoadMessage.getDeep(), downLoadMessage.getSleep());
+            }
+        }
+    }
 
+    public int getUrlDeep(String url) {
+        char s[] = url.toCharArray();
+        int deep = 0;
+        for (int i = 0; i < s.length; i++) {
+            if (s[i] == '/')
+                deep++;
+        }
+        return deep;
+    }
+
+    public String getBaseUrl(String url) {
+        String base = url.substring(0, url.indexOf("/"));
+        return base;
     }
 }
