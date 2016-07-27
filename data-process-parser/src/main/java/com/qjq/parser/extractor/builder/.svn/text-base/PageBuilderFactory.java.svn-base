@@ -1,0 +1,19 @@
+package com.cekasp.extractor.builder;
+
+import com.cekasp.extractor.baike.BaikePageBuilder;
+import com.cekasp.extractor.cnki.CnKiPageBuilder;
+import com.cekasp.extractor.wiki.WiKiPageBuilder;
+
+public class PageBuilderFactory {
+	public static PageBuilder factory(String contentName) {
+		if (contentName.equals("") || contentName.equals("fenghuang") || contentName.equals("baikenews"))
+			return new DefaultPageBuilder();
+		else if (contentName.equals("baike"))
+			return new BaikePageBuilder();
+		else if (contentName.equals("cnki"))
+			return new CnKiPageBuilder();
+		else if (contentName.equals("wiki"))
+			return new WiKiPageBuilder();
+		return null;
+	}
+}

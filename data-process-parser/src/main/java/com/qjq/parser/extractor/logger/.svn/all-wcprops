@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/Parser/!svn/ver/190/NewParser/src/main/java/com/cekasp/extractor/logger
+END
+AbstractLogEvent.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/Parser/!svn/ver/219/NewParser/src/main/java/com/cekasp/extractor/logger/AbstractLogEvent.java
+END
+SysLog.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/Parser/!svn/ver/219/NewParser/src/main/java/com/cekasp/extractor/logger/SysLog.java
+END
+InitSysLogEvent.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/Parser/!svn/ver/219/NewParser/src/main/java/com/cekasp/extractor/logger/InitSysLogEvent.java
+END

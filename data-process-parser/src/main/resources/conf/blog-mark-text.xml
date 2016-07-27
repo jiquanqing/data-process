@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE content [
+<!ELEMENT content (array?,list*,map*, section*)>
+<!ELEMENT array (#PCDATA)>
+<!ELEMENT list (#PCDATA)>
+<!ELEMENT map (#PCDATA)>
+<!ATTLIST map key CDATA #REQUIRED>
+<!ELEMENT section (list*,map*)>
+<!ATTLIST section name CDATA #REQUIRED>
+]>
+<content>
+	<list>个人主页</list>
+	<list>个人首页</list>
+	<list>博客用户首页</list>
+	<list>空间首页</list>
+	<list>我的空间</list>
+	<list>我的介绍</list>
+	<list>我的首页</list>
+
+	<section name="author-text">
+		<list>的博客</list>
+		<list>的blog</list>
+		<list>的主页</list>
+		<list>的辩论</list>
+		<list>的个人博客</list>
+		<list>的个人空间</list>
+		
+		<map key="nothing">1</map>
+	</section>
+		<section name="tag-text">
+		<list>标签</list>
+		<list>TAG:</list>
+		<list>关键字</list>
+		
+		<map key="nothing">1</map>
+	</section>
+	
+</content>

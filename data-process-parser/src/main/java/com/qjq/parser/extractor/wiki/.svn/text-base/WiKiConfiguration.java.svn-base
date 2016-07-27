@@ -1,0 +1,41 @@
+package com.cekasp.extractor.wiki;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.cekasp.extractor.configuration.DefaultConfiguration;
+
+/*
+ * functions:ciki configuration
+ * author:qingjiquan
+ * date:2014-11-20
+ */
+public class WiKiConfiguration extends DefaultConfiguration {
+
+	private List<WiKiTemplate> zhWiKiTemplates = new ArrayList<WiKiTemplate>();
+
+	public void addTemplate(WiKiTemplate template) {
+		this.zhWiKiTemplates.add(template);
+	}
+	public List<WiKiTemplate> getZhWiKiTemplates() {
+		return zhWiKiTemplates;
+	}
+
+	public void setZhWiKiTemplates(List<WiKiTemplate> zhWiKiTemplates) {
+		this.zhWiKiTemplates = zhWiKiTemplates;
+	}
+
+	public List<WiKiTemplate> getZhWiKiTemplateByUrl(String url) {
+		List<WiKiTemplate> result = new ArrayList<WiKiTemplate>();
+		for (int i = 0; i < zhWiKiTemplates.size(); i++) {
+			WiKiTemplate template = zhWiKiTemplates.get(i);
+			for (int j = 0; j < template.getUrlPatterns().size(); j++) {
+				if (matchUrl(template.getUrlPatterns().get(j), url)) {
+					result.add(template);
+					break;
+				}
+			}
+		}
+		return result;
+	}
+}

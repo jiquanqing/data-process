@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?> 
+<templates>
+<template-site>	
+	<site>http://wiki.hexun.com/</site>
+	<site>http://news.ifeng.com/</site>
+</template-site>	
+<template>
+    <url>
+		<url-pattern>http://news.ifeng.com/</url-pattern>
+    </url>
+    <title-xpath>//*[@id="artical_topic"]</title-xpath>
+	<body-xpath></body-xpath>
+	<author-xpath>//*[@id="artical_sth"]/p/span[4]/span</author-xpath>
+	<date-xpath>//*[@id="artical_sth"]/p/span[1]</date-xpath>
+	<source-xpath>//*[@id="artical_sth"]/p/span[3]/span/a</source-xpath>
+</template>
+&gt;
+<template>
+    <url>
+		<url-pattern>http://wiki.hexun.com/</url-pattern>
+    </url>
+    <title-xpath>//h1[@class="title"]</title-xpath>
+	<body-xpath></body-xpath>
+	<author-xpath></author-xpath>
+	<date-xpath></date-xpath>
+	<source-xpath></source-xpath>
+</template>
+
+</templates>

@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/Parser/!svn/ver/236/NewParser/src/main/java/com/cekasp/extractor/table
+END
+BasicTableParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/Parser/!svn/ver/255/NewParser/src/main/java/com/cekasp/extractor/table/BasicTableParser.java
+END
+Table.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/Parser/!svn/ver/236/NewParser/src/main/java/com/cekasp/extractor/table/Table.java
+END
+TableParserByHtmlParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/Parser/!svn/ver/249/NewParser/src/main/java/com/cekasp/extractor/table/TableParserByHtmlParser.java
+END
+MyNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/Parser/!svn/ver/246/NewParser/src/main/java/com/cekasp/extractor/table/MyNode.java
+END
+TableParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/Parser/!svn/ver/249/NewParser/src/main/java/com/cekasp/extractor/table/TableParser.java
+END
+TableParserByNoSingle.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/Parser/!svn/ver/250/NewParser/src/main/java/com/cekasp/extractor/table/TableParserByNoSingle.java
+END
+TableParserByMatchXpath.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/Parser/!svn/ver/246/NewParser/src/main/java/com/cekasp/extractor/table/TableParserByMatchXpath.java
+END
+TableParserByXpath.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/Parser/!svn/ver/251/NewParser/src/main/java/com/cekasp/extractor/table/TableParserByXpath.java
+END
+TableParserByNoSingle1.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/Parser/!svn/ver/246/NewParser/src/main/java/com/cekasp/extractor/table/TableParserByNoSingle1.java
+END
+TableParserByHead.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/Parser/!svn/ver/247/NewParser/src/main/java/com/cekasp/extractor/table/TableParserByHead.java
+END
+Cell.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/Parser/!svn/ver/255/NewParser/src/main/java/com/cekasp/extractor/table/Cell.java
+END

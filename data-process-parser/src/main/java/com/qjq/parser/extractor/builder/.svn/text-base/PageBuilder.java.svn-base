@@ -1,0 +1,16 @@
+package com.cekasp.extractor.builder;
+
+import java.io.Reader;
+
+import com.cekasp.extractor.ExtractorPage;
+import com.cekasp.extractor.domain.PageDesc;
+
+public interface PageBuilder {
+    public ExtractorPage extract(PageDesc desc, Reader rawContentReader);
+
+    public ExtractorPage extract(PageDesc desc, String rawContent);
+
+    public void setContentGroup(String cg);
+
+    public String getContentGroup();
+}

@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/Parser/!svn/ver/190/NewParser/src/main/java/com/cekasp/extractor/configuration
+END
+DefaultTemplate.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/Parser/!svn/ver/197/NewParser/src/main/java/com/cekasp/extractor/configuration/DefaultTemplate.java
+END
+Configuration.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/Parser/!svn/ver/191/NewParser/src/main/java/com/cekasp/extractor/configuration/Configuration.java
+END
+ApplicationConfigLoader.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/Parser/!svn/ver/250/NewParser/src/main/java/com/cekasp/extractor/configuration/ApplicationConfigLoader.java
+END
+DefaultConfiguration.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/Parser/!svn/ver/197/NewParser/src/main/java/com/cekasp/extractor/configuration/DefaultConfiguration.java
+END
+DefaultConfigurationParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/Parser/!svn/ver/250/NewParser/src/main/java/com/cekasp/extractor/configuration/DefaultConfigurationParser.java
+END
+ConfParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/Parser/!svn/ver/191/NewParser/src/main/java/com/cekasp/extractor/configuration/ConfParser.java
+END
+ApplicationConfig.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/Parser/!svn/ver/195/NewParser/src/main/java/com/cekasp/extractor/configuration/ApplicationConfig.java
+END

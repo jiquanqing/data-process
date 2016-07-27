@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+	<template-site>
+		<site>http://zh.wikipedia.org/</site>
+	</template-site>
+	<template>
+		<url>
+			<url-pattern>http://zh.wikipedia.org/</url-pattern>
+		</url>
+		<title-xpath>//*[@id="firstHeading"]/span[1]</title-xpath>
+		<content-xpath>//*[@id="mw-content-text"]</content-xpath>
+		<table-xpath>//*[@id="mw-content-text"]//table</table-xpath>
+	</template>
+</templates>

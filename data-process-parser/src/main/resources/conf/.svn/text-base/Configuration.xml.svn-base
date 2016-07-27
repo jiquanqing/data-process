@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE conf-list [
+<!ELEMENT conf-list (conf+)>
+<!ELEMENT conf (#PCDATA)>
+<!ATTLIST conf name CDATA #REQUIRED>
+<!ATTLIST conf class CDATA #REQUIRED>
+]>
+
+<conf-list>
+	<conf name="blog-mark-text" class="com.cekasp.extractor.configuration.DefaultConfigurationParser">blog-mark-text.xml</conf>
+	<conf name="server" class="com.cekasp.extractor.configuration.DefaultConfigurationParser">server.xml</conf>
+	<conf name="default" class="com.cekasp.extractor.configuration.DefaultConfigurationParser">default.xml</conf>
+	<conf name="baike" class="com.cekasp.extractor.baike.BaikeConfigurationParser">baike.xml</conf>
+	<conf name="cnki" class="com.cekasp.extractor.cnki.CnKiConfigurationParser">cnki.xml</conf>
+	<conf name="wiki" class="com.cekasp.extractor.wiki.WiKiConfigurationParser">wiki.xml</conf>
+</conf-list>
+

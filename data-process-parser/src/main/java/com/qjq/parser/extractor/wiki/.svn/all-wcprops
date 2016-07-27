@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/Parser/!svn/ver/223/NewParser/src/main/java/com/cekasp/extractor/wiki
+END
+WiKiPageBuilder.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/Parser/!svn/ver/225/NewParser/src/main/java/com/cekasp/extractor/wiki/WiKiPageBuilder.java
+END
+WiKiTemplate.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/Parser/!svn/ver/225/NewParser/src/main/java/com/cekasp/extractor/wiki/WiKiTemplate.java
+END
+WiKiConfiguration.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/Parser/!svn/ver/223/NewParser/src/main/java/com/cekasp/extractor/wiki/WiKiConfiguration.java
+END
+WiKiConfigurationParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/Parser/!svn/ver/225/NewParser/src/main/java/com/cekasp/extractor/wiki/WiKiConfigurationParser.java
+END
+WiKiExtractorPage.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/Parser/!svn/ver/225/NewParser/src/main/java/com/cekasp/extractor/wiki/WiKiExtractorPage.java
+END

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+	<template-site>
+		<site>http://www.baike.com/wiki</site>
+	</template-site>
+	<template>
+		<url>
+			<url-pattern>http://www.baike.com/wiki</url-pattern>
+		</url>
+		<title-xpath>//div[@class='content-h1']/h1</title-xpath>
+		<summary-xpath>//*[@class='summary']</summary-xpath>
+		<content-xpath>//*[@id='content']</content-xpath>
+		<tag-html>p-p|/p-/p|br-br</tag-html>
+		<contentH2-xpath>//*[@id='content']/div/h2</contentH2-xpath>
+		<contentH3-xpath>//*[@id='content']/h3</contentH3-xpath>
+		<parent-xpath>//div[@class='relevantinfo']//dl[@id='show_tag']//dd//a[@href]</parent-xpath>
+		<parenturl-xpath>//*[@id="artical_sth"]/p/span[4]/span
+		</parenturl-xpath>
+		<sub-xpath></sub-xpath>
+		<suburl-xpath></suburl-xpath>
+		<related-xpath></related-xpath>
+		<relatedurl-xpath></relatedurl-xpath>
+		<synonym-xpath></synonym-xpath>
+		<polysemy-xpath></polysemy-xpath>
+		<synonymurl-xpath></synonymurl-xpath>
+		<polysemyurl-xpath></polysemyurl-xpath>
+		<abstract-xpath>//div[@class='summary']/p</abstract-xpath>
+	</template>
+</templates>

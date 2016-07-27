@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/Parser/!svn/ver/190/NewParser/src/main/java/com/cekasp/extractor/exception
+END
+ConfWrappedException.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/Parser/!svn/ver/190/NewParser/src/main/java/com/cekasp/extractor/exception/ConfWrappedException.java
+END
+WrappedException.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/Parser/!svn/ver/191/NewParser/src/main/java/com/cekasp/extractor/exception/WrappedException.java
+END

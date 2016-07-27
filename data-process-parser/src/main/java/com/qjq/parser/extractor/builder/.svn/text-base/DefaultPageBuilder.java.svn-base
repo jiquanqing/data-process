@@ -1,0 +1,115 @@
+package com.cekasp.extractor.builder;
+
+import java.util.List;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+
+import com.cekasp.extractor.ExtractorPage;
+import com.cekasp.extractor.configuration.ApplicationConfig;
+import com.cekasp.extractor.configuration.DefaultConfiguration;
+import com.cekasp.extractor.configuration.DefaultTemplate;
+import com.cekasp.extractor.domain.PageDesc;
+import com.cekasp.extractor.exception.WrappedException;
+import com.cekasp.extractor.html.HtmlPageParser;
+import com.cekasp.extractor.utils.CommonUtil;
+/*
+ *functions: default page extractor 
+ *author: qingjiquan
+ *date: 2014-10-30
+ */
+public class DefaultPageBuilder extends AbstractPageBuilder {
+    final static String CONIF_NAME = "default";
+    private static Logger LOG = LoggerFactory.getLogger(DefaultPageBuilder.class);
+
+    public ExtractorPage extract(PageDesc desc, String rawContent) {
+        ExtractorPage page = new ExtractorPage();
+        page.setUrl(desc.getUrl());
+        HtmlPageParser htmlPageParser = HtmlPageParser.getHtmlPageParser();
+        Document document = htmlPageParser.parser(desc.getUrl(), rawContent);
+        page.setXmlDoc(document);
+        processDoc(page, document);
+        return page;
+    }
+
+    @Override
+    protected boolean isTemplateSite(String url) {
+
+        return false;
+    }
+
+    private void processDoc(ExtractorPage page, Document document) {
+        String url = page.getUrl();
+        DefaultConfiguration configuration = (DefaultConfiguration) ApplicationConfig.getConfigFromApplication().getConf(CONIF_NAME);
+        List<DefaultTemplate> templates = configuration.getTemplatesByUrl(url);
+        if (templates == null || templates.size() <= 0) {
+            LOG.info("no templates find by url : " + url);
+            return;
+        }
+        DefaultTemplate template = extractorTitle(page, document, templates);
+        if (template == null)
+            return;
+        extractorAuthor(page, document, template);
+        extractorDate(page, document, template);
+        extractorSource(page, document, template);
+    }
+    private void extractorAuthor(ExtractorPage page,Document document,DefaultTemplate template){
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        String xpathAuthor = template.getAuthor();
+        if(xpathAuthor == null || xpathAuthor.equals("")) return ;
+        try {
+            String vaule = xpath.evaluate(xpathAuthor, document);
+            page.setAuthorId(vaule);
+        } catch (XPathExpressionException e) {
+            throw new WrappedException(e);
+        }
+    }
+    private void extractorDate(ExtractorPage page,Document document,DefaultTemplate template){
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        String xpathDate = template.getDate();
+        if(xpathDate == null || xpathDate.equals("")) return ;
+        try {
+            String vaule = xpath.evaluate(xpathDate, document);
+            page.setPublishDate(vaule);
+        } catch (XPathExpressionException e) {
+            throw new WrappedException(e);
+        }
+    }
+    private void extractorSource(ExtractorPage page,Document document,DefaultTemplate template){
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        String xpathSource = template.getSource();
+        if(xpathSource == null || xpathSource.equals("")) return ;
+        try {
+            String vaule = xpath.evaluate(xpathSource, document);
+            page.setPublishSource(vaule);
+        } catch (XPathExpressionException e) {
+            throw new WrappedException(e);
+        }
+    }
+
+    private DefaultTemplate extractorTitle(ExtractorPage page, Document document, List<DefaultTemplate> templates) {
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        for (int i = 0; i < templates.size(); i++) {
+            DefaultTemplate template = templates.get(i);
+            String titleXpath = template.getTitle();
+            if(titleXpath == null || titleXpath.equals("")) return null;
+            StringBuffer value = new StringBuffer();
+            try {
+                String str = xpath.evaluate(titleXpath, document);
+                value.append(CommonUtil.removeHuanHang(str));
+            } catch (XPathExpressionException e) {
+                LOG.debug("xpath error and xpath = " + xpath);
+            }
+            if (value != null && !value.toString().equals("")) {
+                page.setTitle(value.toString());
+                return template;
+            }
+        }
+        return null;
+    }
+}

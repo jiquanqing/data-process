@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE content [
+<!ELEMENT content (section*)>
+<!ELEMENT array (#PCDATA)>
+<!ELEMENT list (#PCDATA)>
+<!ELEMENT map (#PCDATA)>
+<!ATTLIST map key CDATA #REQUIRED>
+<!ELEMENT section (map*)>
+<!ATTLIST section name CDATA #REQUIRED>
+]>
+
+<content>	
+	<section name="de-server">
+			<map key="host">localhost</map>
+			<map key="port">8000</map>
+	</section>
+</content>

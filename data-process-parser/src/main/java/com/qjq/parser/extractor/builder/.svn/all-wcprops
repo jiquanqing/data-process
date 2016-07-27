@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/Parser/!svn/ver/193/NewParser/src/main/java/com/cekasp/extractor/builder
+END
+PageBuilderFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/Parser/!svn/ver/223/NewParser/src/main/java/com/cekasp/extractor/builder/PageBuilderFactory.java
+END
+PageBuilder.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/Parser/!svn/ver/193/NewParser/src/main/java/com/cekasp/extractor/builder/PageBuilder.java
+END
+DefaultPageBuilder.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/Parser/!svn/ver/197/NewParser/src/main/java/com/cekasp/extractor/builder/DefaultPageBuilder.java
+END
+AbstractPageBuilder.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/Parser/!svn/ver/195/NewParser/src/main/java/com/cekasp/extractor/builder/AbstractPageBuilder.java
+END

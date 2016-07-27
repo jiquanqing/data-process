@@ -1,0 +1,45 @@
+package com.qjq.parser.extractor.configuration;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class ApplicationConfig {
+
+    private static ApplicationConfig configInApp = null;
+    private Map<String, Configuration> cons = new HashMap<String, Configuration>();
+
+    static {
+        ApplicationConfigLoader loader = ApplicationConfigLoader.getApplicationConfigLoader();
+        loader.loadConfigurations();
+    }
+
+    private ApplicationConfig() {
+    }
+
+    synchronized static ApplicationConfig getApplicationConfig() {
+        if (configInApp == null) {
+            configInApp = new ApplicationConfig();
+        }
+        return configInApp;
+    }
+
+    public void setConf(String confName, Configuration con) {
+        cons.put(confName, con);
+    }
+
+    public Configuration getConf(String confName) {
+        return cons.get(confName);
+    }
+    public Map<String,Configuration> getAllConf(){
+        return cons;
+    }
+
+    synchronized public static void addConfigIntoApplication(ApplicationConfig aCon) {
+        configInApp = aCon;
+    }
+
+    synchronized static public ApplicationConfig getConfigFromApplication() {
+        return configInApp;
+    }
+
+}

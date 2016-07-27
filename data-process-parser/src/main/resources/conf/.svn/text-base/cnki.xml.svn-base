@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+	<template-site>
+		<site>http://www.cnki.net/</site>
+	</template-site>
+	<template>
+		<url>
+			<url-pattern>http://www.cnki.net/lunwen</url-pattern>
+		</url>
+		<keywords-xpath>//div[@class='keywords']/span[1] | //div[@class='keywords int5']/span[1]</keywords-xpath>
+		<clcnum-xpath>//ul[@class='break']</clcnum-xpath>
+		<abstract-xpath>//*[@id="ChDivSummary"]/text()</abstract-xpath>
+		<content-xpath>//*[@id="content"]</content-xpath>
+	</template>
+	<template>
+		<url>
+			<url-pattern>http://www.cnki.net/qikan</url-pattern>
+		</url>
+		<author-xpath>//div[@class="author"]/p[1]</author-xpath>
+		<authorhref-xpath>//div[@class="author"]/p[1]/a/@href</authorhref-xpath>
+		<authoren-xpath>//div[@class="author"]/p[2]</authoren-xpath>
+		<authorenhref-xpath>//div[@class="author"]/p[2]/a/@href</authorenhref-xpath>
+		<jigou-xpath>//div[@class="author"]/p[3]</jigou-xpath>
+		<jigouhref-xpath>//div[@class="author"]/p[3]/a/@href</jigouhref-xpath>
+		<abstractzh-xpath>//*[@id="main"]/div[1]/div[3]/p[1]</abstractzh-xpath>
+		<abstracten-xpath>//*[@id="main"]/div[1]/div[3]/p[2]</abstracten-xpath>
+		
+		<keywordzh-xpath>//div[@class="keywords"]/span[1]</keywordzh-xpath>
+		<keywordzhhref-xpath>//div[@class="keywords"]/span[1]/a/@href</keywordzhhref-xpath>
+		<keyworden-xpath>//div[@class="keywords"]/span[2]</keyworden-xpath>
+		<keywordenhref-xpath>//div[@class="keywords"]/span[2]/a/@href</keywordenhref-xpath>
+		
+		<clcnum-xpath>//div[@class='summary']/ul[2]/li[1]</clcnum-xpath>
+		<publishinfo-xpath>//div[@class='summary']/ul[1]/li[1]</publishinfo-xpath>
+		<zhtitle-xpath>//span[@id='chTitle']</zhtitle-xpath>
+		<entitle-xpath>//span[@id='enTitle']</entitle-xpath>
+	</template>
+</templates>

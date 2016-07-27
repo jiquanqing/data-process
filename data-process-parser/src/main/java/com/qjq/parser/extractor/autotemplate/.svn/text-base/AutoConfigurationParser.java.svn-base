@@ -1,0 +1,59 @@
+package com.cekasp.extractor.autotemplate;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.configuration.XMLConfiguration;
+
+import com.cekasp.extractor.configuration.Configuration;
+import com.cekasp.extractor.configuration.DefaultConfiguration;
+import com.cekasp.extractor.configuration.DefaultConfigurationParser;
+import com.cekasp.extractor.exception.ConfWrappedException;
+
+public class AutoConfigurationParser extends DefaultConfigurationParser {
+    public Configuration parse(String confName, XMLConfiguration xConf) {
+        DefaultConfiguration configuration = new DefaultConfiguration();
+        try {
+            configuration.setConfName(confName);
+
+            xConf.setDelimiterParsingDisabled(true);
+            xConf.setValidating(true);
+            xConf.setThrowExceptionOnMissing(false);
+            xConf.setThrowExceptionOnMissing(false);
+            List<String> tList = (List<String>) xConf.getList("template-site.site");
+            configuration.getTemplateSites().addAll(tList);
+
+            List<AutoTemplate> templates = new ArrayList<AutoTemplate>();
+            for (int k = 0; true; k++) {
+                List<String> patternList = (List<String>) xConf.getList("template(" + k + ").url.url-pattern");
+                if (patternList == null || patternList.size() == 0) {
+                    break;
+                }
+                List<String> patternNameList = (List<String>) xConf.getList("template(" + k + ").pattern.name");
+                if (patternNameList == null || patternNameList.size() == 0) {
+                    break;
+                }
+                AutoPattern pattern = null;
+                AutoTemplate fTemplate = new AutoTemplate();
+                List<AutoPattern> patterns = new ArrayList<AutoPattern>();
+                for (int i = 0; i < patternNameList.size(); i++) {
+                    pattern = new AutoPattern();
+                    pattern.setName(patternNameList.get(i));
+                    List<String> xpath = new ArrayList<String>();
+                    xpath = xConf.getList("template(" + k + ").pattern(" + i + ").xpath");
+
+                    pattern.setXpath(xpath);
+                    patterns.add(pattern);
+                }
+                fTemplate.setPatterns(patterns);
+                fTemplate.setId(String.valueOf(k));
+                templates.add(fTemplate);
+            }
+            configuration.setAutoTemplates(templates);
+        } catch (Exception e) {
+            throw new ConfWrappedException(e);
+        }
+        return configuration;
+    }
+
+}

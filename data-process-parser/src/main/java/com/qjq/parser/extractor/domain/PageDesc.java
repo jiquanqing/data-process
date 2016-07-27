@@ -1,0 +1,63 @@
+package com.qjq.parser.extractor.domain;
+
+import com.qjq.parser.extractor.utils.CommonUtil;
+
+public class PageDesc {
+    private String url_;
+    private String uid_;
+    private String entryUrl_ = "";
+    private String entryUid_ = "";
+    private String cgName_;
+    private String hostName_;
+
+    public String getUrl() {
+        return url_;
+    }
+
+    public void setUrl(String url) {
+        url_ = url;
+    }
+
+    public String getUid() {
+        return uid_;
+    }
+
+    public void setUid(String uid) {
+        uid_ = uid;
+    }
+
+    public String getEntryUrl() {
+        return entryUrl_;
+    }
+
+    public void setEntryUrl(String url) {
+        entryUrl_ = url;
+    }
+
+    public String getEntryUid() {
+        return entryUid_;
+    }
+
+    public void setEntryUid(String uid) {
+        entryUid_ = uid;
+    }
+
+    public String getCgName() {
+        return cgName_;
+    }
+
+    public void setCgName(String name) {
+        cgName_ = name;
+    }
+
+    public String getHostName() {
+        return hostName_;
+    }
+
+    public void setHostNameFromUrl(String url) {
+        String host = CommonUtil.getHostName(url);
+        if (host != null) {
+            hostName_ = host;
+        }
+    }
+}

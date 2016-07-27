@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/Parser/!svn/ver/197/NewParser/src/main/java/com/cekasp/extractor/baike
+END
+BaikeExtractorPage.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/Parser/!svn/ver/219/NewParser/src/main/java/com/cekasp/extractor/baike/BaikeExtractorPage.java
+END
+BaikeTemplate.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/Parser/!svn/ver/219/NewParser/src/main/java/com/cekasp/extractor/baike/BaikeTemplate.java
+END
+BaikePageBuilder.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/Parser/!svn/ver/219/NewParser/src/main/java/com/cekasp/extractor/baike/BaikePageBuilder.java
+END
+BaikeConfiguration.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/Parser/!svn/ver/197/NewParser/src/main/java/com/cekasp/extractor/baike/BaikeConfiguration.java
+END
+BaikeConfigurationParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/Parser/!svn/ver/219/NewParser/src/main/java/com/cekasp/extractor/baike/BaikeConfigurationParser.java
+END

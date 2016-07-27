@@ -1,0 +1,9 @@
+package com.cekasp.extractor.list;
+
+import java.util.List;
+
+import com.cekasp.extractor.table.Table;
+
+public interface ListParser {
+	public List<Table> process(String html, String attribute, String xpath,String tag);
+}

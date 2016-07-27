@@ -1,0 +1,191 @@
+package com.cekasp.extractor.table;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.cekasp.extractor.utils.CommonUtil;
+
+import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.Source;
+
+public class TableParserByNoSingle extends BasicTableParser {
+
+	private String needHtmlContent;
+	private String nodePath;
+	private String coltag;
+	private String rowtag;
+	private int cols;
+	private int rows;
+
+	public List<Table> process(String html, String attraibute, String xpath,
+	        Map<String, String> rowtag, Map<String, String> coltag) {
+		needHtmlContent = "";
+		cols = 0;
+		rows = 0;
+		this.html = html;
+		table = new ArrayList<Table>();
+		if (xpath != null && !xpath.equals("")) {
+			needHtmlContent = getXpathContent(xpath);
+		} else {
+			needHtmlContent = getHtmlCodeByAttraibute(html, attraibute);
+		}
+		table = parserHtml(needHtmlContent);
+		return table;
+	}
+	public List<Table> process(String html, String attraibute, String xpath, String rowtag,
+	        String coltag) {
+		needHtmlContent = "";
+		cols = 0;
+		rows = 0;
+		this.html = html;
+		this.coltag = coltag;
+		this.rowtag = rowtag;
+		table = new ArrayList<Table>();
+		if (xpath != null && !xpath.equals("")) {
+			needHtmlContent = getXpathContent(xpath);
+		} else {
+			needHtmlContent = getHtmlCodeByAttraibute(html, attraibute);
+		}
+		table = parserHtml(needHtmlContent);
+		return table;
+	}
+	private List<Table> parserHtml(String str) {
+		List<Table> tableList = new ArrayList<Table>();
+		Source source = new Source(str);
+		List<Element> elements = source.getAllElements();
+		int rows = 0;
+		List<MyNode> myNodes = new ArrayList<MyNode>();
+		for (Element element : elements) {
+
+			MyNode myNode = new MyNode();
+			myNode.setContent(element.toString());
+			if (attrContainisText(element.toString(), element.getName())) {
+				myNode.setHasText(true);
+			} else {
+				myNode.setHasText(false);
+			}
+			myNode.setName(element.getName());
+			nodePath = "";
+			getAllEmementName(element);
+			myNode.setChilds(nodePath);
+			myNode.setLoc(rows);
+			rows++;
+			myNodes.add(myNode);
+		}
+
+		findTable(myNodes);
+		parserHtmlTable(myNodes, tableList);
+		return tableList;
+	}
+	private void parserHtmlTable(List<MyNode> myNodes, List<Table> tables) {
+		Table table = new Table();
+		table.setRows(rows);
+		table.setCols(cols);
+		Cell cell[][] = new Cell[rows][cols];
+		int r = 0;
+		for (int i = 0; i < myNodes.size(); i++) {
+			MyNode myNode = myNodes.get(i);
+			if (myNode.isTr()) {
+				String htmlStr = myNode.getContent();
+				Source source = new Source(htmlStr);
+				List<Element> elements = source.getAllElements(coltag);
+				for (int c = 0; c < elements.size(); c++) {
+					cell[r][c] = new Cell();
+					cell[r][c].setCols(c);
+					cell[r][c].setRows(r);
+					cell[r][c].setMark("");
+					cell[r][c].setText(CommonUtil.removeHeadBlank(elements.get(c)
+					        .getTextExtractor().toString()));
+				}
+				r++;
+			}
+		}
+		table.setCells(cell);
+		tables.add(table);
+	}
+	public void findTable(List<MyNode> myNodes) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		int value = 0;
+		int max = 0;
+		for (int i = 0; i < myNodes.size(); i++) {
+			MyNode myNode = myNodes.get(i);
+			if (map.containsKey(myNode.getName())) {
+				value = map.get(myNode.getName()) + 1;
+			} else {
+				value = 1;
+			}
+			if (myNode.isHasText() && value >= max) {
+				max = value;
+			}
+			map.put(myNode.getName(), value);
+		}
+
+		for (int i = 0; i < myNodes.size(); i++) {
+			MyNode myNode = myNodes.get(i);
+			if (!myNode.isHasText()) {
+				String tags = myNode.getChilds();
+				String tag[] = tags.split(" ");
+				boolean isTr = true;
+				for (int j = 1; j < tag.length; j++) {
+					if (!tag[j].equals(coltag)) {
+						isTr = false;
+						break;
+					}
+				}
+				if (isTr && tag[0].equals(this.rowtag)) {
+					myNode.setTr(true);
+					rows++;
+					cols = tag.length - 1;
+				}
+			}
+		}
+	}
+	public boolean attrContainisText(String str, String tag) {
+		Source source = new Source(str);
+		List<Element> elements = source.getAllElements();
+		for (int i = 0; i < elements.size(); i++) {
+			Element element = elements.get(i);
+			if (element.getName().equals(tag) || isFilterColsTag(element.getName()))
+				continue;
+			else
+				return false;
+		}
+		return true;
+	}
+	public boolean isFilterColsTag(String tag) { // 过滤掉的col标签，主要用来防止找错标签。
+		for (int i = 0; i < filterColsTag.length; i++) {
+			if (filterColsTag[i].equals(tag) && !filterColsTag[i].equals(coltag))
+				return true;
+		}
+		return false;
+	}
+	public void getAllEmementName(Element element) {
+		List<Element> elements = element.getAllElements();
+		if (!isFilterColsTag(element.getName()))
+			nodePath += element.getName() + " ";
+		if (elements.size() > 0) {
+			for (int i = 1; i < elements.size(); i++) {
+				getAllEmementName(elements.get(i));
+			}
+		} else {
+			System.out.println(element.getName());
+			return;
+		}
+	}
+
+	private String getHtmlCodeByAttraibute(String html, String attr) {
+		StringBuilder builder = new StringBuilder();
+		Source source = new Source(html);
+		List<Element> elements = source.getAllElements();
+		for (Element element : elements) {
+			if (successByAttribute(element, attr)) {
+				builder.append(element.toString());
+				break;
+			}
+		}
+		return builder.toString();
+	}
+
+}

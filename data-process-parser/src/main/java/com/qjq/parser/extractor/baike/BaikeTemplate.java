@@ -1,0 +1,154 @@
+package com.qjq.parser.extractor.baike;
+
+import com.qjq.parser.extractor.configuration.DefaultTemplate;
+
+public class BaikeTemplate extends DefaultTemplate {
+
+    private String synonym;
+    private String polysemy;
+    private String related;
+    private String parent;
+    private String sub;
+    private String synonymUrl;
+    private String polysemyUrl;
+    private String relatedUrl;
+    private String parentUrl;
+    private String subUrl;
+    private String abstractKey;
+    private String content;
+    private String tag;
+    private String summary;
+    private String h2;
+    private String h3;
+    
+    public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	public String getH2() {
+		return h2;
+	}
+
+	public void setH2(String h2) {
+		this.h2 = h2;
+	}
+
+	public String getH3() {
+		return h3;
+	}
+
+	public void setH3(String h3) {
+		this.h3 = h3;
+	}
+
+	
+
+    public String getSynonym() {
+        return synonym;
+    }
+
+    public void setSynonym(String synonym) {
+        this.synonym = synonym;
+    }
+
+    public String getPolysemy() {
+        return polysemy;
+    }
+
+    public void setPolysemy(String polysemy) {
+        this.polysemy = polysemy;
+    }
+
+    public String getRelated() {
+        return related;
+    }
+
+    public void setRelated(String related) {
+        this.related = related;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
+
+    public String getSub() {
+        return sub;
+    }
+
+    public void setSub(String sub) {
+        this.sub = sub;
+    }
+
+    public String getSynonymUrl() {
+        return synonymUrl;
+    }
+
+    public void setSynonymUrl(String synonymUrl) {
+        this.synonymUrl = synonymUrl;
+    }
+
+    public String getPolysemyUrl() {
+        return polysemyUrl;
+    }
+
+    public void setPolysemyUrl(String polysemyUrl) {
+        this.polysemyUrl = polysemyUrl;
+    }
+
+    public String getRelatedUrl() {
+        return relatedUrl;
+    }
+
+    public void setRelatedUrl(String relatedUrl) {
+        this.relatedUrl = relatedUrl;
+    }
+
+    public String getParentUrl() {
+        return parentUrl;
+    }
+
+    public void setParentUrl(String parentUrl) {
+        this.parentUrl = parentUrl;
+    }
+
+    public String getSubUrl() {
+        return subUrl;
+    }
+
+    public void setSubUrl(String subUrl) {
+        this.subUrl = subUrl;
+    }
+
+    public String getAbstractKey() {
+        return abstractKey;
+    }
+
+    public void setAbstractKey(String abstractKey) {
+        this.abstractKey = abstractKey;
+    }
+
+}

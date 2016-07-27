@@ -1,0 +1,54 @@
+package com.cekasp.extractor.text;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import com.cekasp.extractor.utils.CommonUtil;
+
+public class ParserTextBlockByXpath extends BasicParserTextBlock {
+
+	public Map<String, String> process(String html, Map<String, String> xpath) {
+		Map<String, String> result = new HashMap<String, String>();
+		Document document = getDocument(html);
+		result = extratorContent(xpath, document);
+		return result;
+	}
+	public Map<String, String> extratorContent(Map<String, String> xpath, Document document) {
+		Map<String, String> res = new HashMap<String, String>();
+		Set<String> set = xpath.keySet();
+		Iterator<String> it = set.iterator();
+		while (it.hasNext()) {
+			String key = it.next();
+			String value = xpath.get(key);
+			String xpathValue = extractorByXpath(value, document);
+			res.put(key, xpathValue);
+		}
+		return res;
+	}
+	public String extractorByXpath(String xpathStr, Document document) {
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		if (xpathStr == null || xpathStr.equals(""))
+			return "";
+		StringBuffer value = new StringBuffer();
+		try {
+			NodeList lists = (NodeList) xpath.evaluate(xpathStr, document, XPathConstants.NODESET);
+			for (int j = 0; j < lists.getLength(); j++) {
+				Node node = lists.item(j);
+				value.append(CommonUtil.removeHeadBlank(node.getTextContent()));
+			}
+		} catch (XPathExpressionException e) {
+		}
+		return value.toString();
+	}
+}

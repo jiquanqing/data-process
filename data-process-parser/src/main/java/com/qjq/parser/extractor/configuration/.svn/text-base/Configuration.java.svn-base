@@ -1,0 +1,5 @@
+package com.cekasp.extractor.configuration;
+
+public interface Configuration {
+    public String getConfName();
+}
