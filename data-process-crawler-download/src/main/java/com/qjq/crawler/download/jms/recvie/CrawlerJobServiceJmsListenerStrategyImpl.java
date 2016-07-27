@@ -61,8 +61,9 @@ public class CrawlerJobServiceJmsListenerStrategyImpl implements JmsListenerStra
                         Long end = variablesField.getEndPoint();
 
                         for (Long var = start; var < end; var++) {
-                            String params = variablesField.getFieldName() + "=" + var;
-                            String url = creatUrl(crawlerMessage.getBaseUrl(), params);
+                            String changParams = variablesField.getFieldName();
+                            String url = crawlerMessage.getBaseUrl();
+                            url = url.replaceAll(changParams, var.toString());
                             downLoadService.addSeed(url, crawlerJob.getJobid(), 0, config.getSleepTime());
                         }
                     }

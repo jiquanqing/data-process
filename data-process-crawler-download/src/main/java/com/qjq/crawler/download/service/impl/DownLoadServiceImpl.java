@@ -1,9 +1,7 @@
 package com.qjq.crawler.download.service.impl;
 
 import java.util.Date;
-import java.util.Timer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
 
 import org.data.process.model.HtmlObject;
 import org.data.process.mqmodel.DownLoadMessage;
@@ -20,17 +18,16 @@ import com.qjq.crawler.download.dao.mongo.HtmlRepository;
 import com.qjq.crawler.download.dao.mysql.CrawlerUrlJobMapper;
 import com.qjq.crawler.download.dao.redis.RedisStoreManger;
 import com.qjq.crawler.download.domain.CrawlerUrlJob;
+import com.qjq.crawler.download.domain.CrawlerUrlJobExample;
 import com.qjq.crawler.download.jms.send.MessageSender;
 import com.qjq.crawler.download.service.DownLoadService;
+import com.qjq.crawler.download.service.ExtendsHtmlUrlService;
 import com.qjq.crawler.download.utils.HttpRequest;
 
 @Service
 public class DownLoadServiceImpl implements DownLoadService {
 
     private static Logger logger = LoggerFactory.getLogger(DownLoadServiceImpl.class);
-
-    // 获取扩展url的正则 是否可以考虑用xpaths
-    private static Pattern url_pattern = Pattern.compile("<a.*?href=[\"']?((https?://)?/?[^\"']+)[\"']?.*?>(.+)</a>");
 
     @Autowired
     MessageSender messageSender;
@@ -42,31 +39,16 @@ public class DownLoadServiceImpl implements DownLoadService {
     RedisStoreManger redisStoreManger;
     @Autowired
     CrawlerUrlJobMapper crawlerUrlJobMapper;
+    @Autowired
+    ExtendsHtmlUrlService extendsHtmlUrlService;
 
     private int uidTimeOut = 60 * 60 * 24 * 10;
 
     @Override
     public void addSeed(String url, String jobId, Integer deep, Integer sleep) {
-
-        if (deep == null)
-            deep = 0;
-        if (sleep == null)
-            sleep = 5000; // 默认的下载间隔为5s
-        try {
-            Thread.sleep(Long.valueOf(sleep));
-        } catch (InterruptedException ee) {
-            logger.error("延时出现问题,e", ee);
-        }
         String uid = UidUtils.getUid(url);
         try {
-            if (redisStoreManger.existByRedis(uid, null)) {
-                CrawlerUrlJob crawlerUrlJob = new CrawlerUrlJob();
-                crawlerUrlJob.setCtime(new Date());
-                crawlerUrlJob.setIsvalid(1);
-                crawlerUrlJob.setJobid(jobId);
-                crawlerUrlJob.setUid(uid);
-                crawlerUrlJobMapper.insert(crawlerUrlJob);
-                workQueueManger.incDownloadTot(jobId);
+            if (redisStoreManger.existByRedis(uid + jobId, null)) {
                 logger.info("uid = {},已经存在,skip", uid);
                 return;
             }
@@ -88,7 +70,7 @@ public class DownLoadServiceImpl implements DownLoadService {
         messageSender.hander(UtilJson.writerWithDefaultPrettyPrinter(downLoadMessage));
 
         try {
-            redisStoreManger.putToRedis(uid, null, 1, uidTimeOut);
+            redisStoreManger.putToRedis(uid + jobId, null, 1, uidTimeOut);
         } catch (Exception e) {
             logger.error("uid = {},put to redis error", uid, e);
         }
@@ -126,16 +108,17 @@ public class DownLoadServiceImpl implements DownLoadService {
             crawlerUrlJob.setUid(uid);
             crawlerUrlJobMapper.insert(crawlerUrlJob);
             workQueueManger.incDownloadTot(message.getJobId());
+            extendsUrl(content, message);
         } catch (Exception e) {
             logger.error("下载失败 url={}", message.getUrl());
         }
     }
 
     public void extendsUrl(String content, DownLoadMessage downLoadMessage) {
-        Matcher matcher = url_pattern.matcher(content);
+        List<String> extendUrls = extendsHtmlUrlService.handle(content);
         String baseUrl = getBaseUrl(downLoadMessage.getUrl()); // 得到域名
-        while (matcher.find()) {
-            String extendUrl = matcher.group(1).trim();
+        int baseDeep = getUrlDeep(downLoadMessage.getUrl());
+        for (String extendUrl : extendUrls) {
             if (!extendUrl.startsWith("http")) {
                 if (extendUrl.startsWith("/")) {
                     extendUrl = baseUrl + extendUrl;
@@ -144,7 +127,7 @@ public class DownLoadServiceImpl implements DownLoadService {
                 }
             }
             int curDeep = getUrlDeep(extendUrl);
-            if (curDeep < downLoadMessage.getDeep()) {
+            if (curDeep >= baseDeep && curDeep - baseDeep <= downLoadMessage.getDeep()) {
                 addSeed(extendUrl, downLoadMessage.getJobId(), downLoadMessage.getDeep(), downLoadMessage.getSleep());
             }
         }

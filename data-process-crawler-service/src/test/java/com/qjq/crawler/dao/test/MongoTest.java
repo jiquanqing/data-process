@@ -29,7 +29,8 @@ public class MongoTest extends AbstractTest {
     
     @Test
     public void testQuery(){
-        HtmlObject htmlObject = htmlRepository.findOne("123");
+        HtmlObject htmlObject = htmlRepository.findOne("5986ff8df3ee50ce");
         System.out.println(htmlObject.getContent());
+        System.out.println(htmlObject.getUrl());
     }
 }

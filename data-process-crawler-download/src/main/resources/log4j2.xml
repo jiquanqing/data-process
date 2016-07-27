@@ -6,7 +6,7 @@
 		</Console>
 		<RollingRandomAccessFile name="allFile" immediateFlush ="false"
 			fileName="logs/crawlers/all.log"
-			filePattern="logs/global-api/$${date:yyyy-MM-dd}/all-%d{yyyy-MM-dd-HH}-%i.log">
+			filePattern="logs/crawlers/$${date:yyyy-MM-dd}/all-%d{yyyy-MM-dd-HH}-%i.log">
 			<PatternLayout>
 				<Pattern>%d [%-5p][%t] %m (%C:%F:%L) %n</Pattern>
 			</PatternLayout>
