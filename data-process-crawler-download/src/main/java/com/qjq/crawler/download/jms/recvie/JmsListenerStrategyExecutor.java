@@ -24,7 +24,7 @@ import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service 
 public class JmsListenerStrategyExecutor implements InitializingBean, ApplicationContextAware {
 
     private static Logger logger = LoggerFactory.getLogger(JmsListenerStrategyExecutor.class);

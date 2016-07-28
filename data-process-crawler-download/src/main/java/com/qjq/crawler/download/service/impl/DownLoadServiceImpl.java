@@ -108,7 +108,9 @@ public class DownLoadServiceImpl implements DownLoadService {
             crawlerUrlJob.setUid(uid);
             crawlerUrlJobMapper.insert(crawlerUrlJob);
             workQueueManger.incDownloadTot(message.getJobId());
-            extendsUrl(content, message);
+            if (message.getDeep() != null && message.getDeep() >= 0) {
+                extendsUrl(content, message);
+            }
         } catch (Exception e) {
             logger.error("下载失败 url={}", message.getUrl());
         }
