@@ -36,7 +36,7 @@ public class DownLoadJmsListenerStrategyImpl implements JmsListenerStrategy {
     @Override
     public void onMessage(String text) {
         logger.info(jmsQueue + "接收到下载mq消息:", text);
-       /* if (!StringUtils.isEmpty(text)) {
+        if (!StringUtils.isEmpty(text)) {
             final DownLoadMessage downLoadMessage = UtilJson.readValue(text, DownLoadMessage.class);
             Integer deep = downLoadMessage.getDeep();
             if (deep == null)
@@ -54,7 +54,7 @@ public class DownLoadJmsListenerStrategyImpl implements JmsListenerStrategy {
                     logger.info("{}下载完成", Thread.currentThread().getName());
                 }
             });
-        }*/
+        }
     }
 
     public void setJmsQueue(String jmsQueue) {

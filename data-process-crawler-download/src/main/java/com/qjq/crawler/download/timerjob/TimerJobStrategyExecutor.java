@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -17,6 +19,8 @@ import com.qjq.crawler.download.domain.TimerJobConfig;
 
 @EnableScheduling
 public class TimerJobStrategyExecutor implements InitializingBean, ApplicationContextAware, DisposableBean {
+
+    private static Logger logger = LoggerFactory.getLogger(TimerJobStrategyExecutor.class);
 
     ThreadPoolTaskScheduler scheduler;
     List<ScheduledFuture> futures = new ArrayList<ScheduledFuture>(); // 任务计划
@@ -58,7 +62,10 @@ public class TimerJobStrategyExecutor implements InitializingBean, ApplicationCo
 
     @Override
     public void destroy() throws Exception {
-
+        for (ScheduledFuture future : futures) {
+            future.cancel(true);
+        }
+        logger.info("定时任务已经被注销");
     }
 
     public ThreadPoolTaskScheduler getScheduler() {

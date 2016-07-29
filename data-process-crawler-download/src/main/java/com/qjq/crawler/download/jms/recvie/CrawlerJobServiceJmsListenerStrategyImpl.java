@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.qjq.crawler.download.contier.DownLoadWorkQueueManger;
 import com.qjq.crawler.download.dao.mysql.CrawlerJobMapper;
 import com.qjq.crawler.download.domain.CrawlerJob;
 import com.qjq.crawler.download.service.DownLoadService;
@@ -36,6 +37,8 @@ public class CrawlerJobServiceJmsListenerStrategyImpl implements JmsListenerStra
     CrawlerJobMapper crawlerJobMapper;
     @Autowired
     DownLoadService downLoadService;
+    @Autowired
+    DownLoadWorkQueueManger workQueueManger;
 
     @Override
     public String getJmsQueue() {
@@ -49,6 +52,9 @@ public class CrawlerJobServiceJmsListenerStrategyImpl implements JmsListenerStra
         CrawlerMessage crawlerMessage = UtilJson.readValue(text, CrawlerMessage.class);
         if (crawlerMessage != null) {
             logger.info("开始处理JobId={}", crawlerMessage.getJobId());
+            
+            workQueueManger.addWorkQueue(crawlerMessage.getJobId(), -1);
+            
             CrawlerJob crawlerJob = crawlerJobMapper.selectByPrimaryKey(crawlerMessage.getJobId());
 
             String configJson = crawlerJob.getJobconfig();
