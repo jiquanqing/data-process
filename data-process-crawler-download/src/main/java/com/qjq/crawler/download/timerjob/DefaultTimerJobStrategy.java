@@ -11,7 +11,6 @@ public class DefaultTimerJobStrategy implements TimerJobStrategy {
 
     @Override
     public Long getDelay() {
-        // TODO Auto-generated method stub
         return null;
     }
 

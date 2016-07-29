@@ -52,19 +52,19 @@ public class DownLoadServiceImpl implements DownLoadService {
     public void addSeed(String url, String jobId, Integer deep, Integer sleep) {
 
         DownLoadWorkQueue queue = workQueueManger.getWorkQueue().get(jobId);
-        if (isEnd(queue, jobId)) {
-            CrawlerJob record = new CrawlerJob();
-            record.setJobid(jobId);
 
-            record.setJobstatus(CrawlerJobStatus.finish.getCode());
-
-            crawlerJobMapper.updateByPrimaryKeySelective(record);
-            return;
-        }
         String uid = UidUtils.getUid(url);
         try {
             if (redisStoreManger.existByRedis(uid + jobId, null)) {
                 logger.info("uid = {},已经存在,skip", uid);
+                if (isEnd(queue, jobId)) {
+                    CrawlerJob record = new CrawlerJob();
+                    record.setJobid(jobId);
+
+                    record.setJobstatus(CrawlerJobStatus.finish.getCode());
+
+                    crawlerJobMapper.updateByPrimaryKeySelective(record);
+                }
                 return;
             }
         } catch (Exception e1) {
@@ -180,7 +180,7 @@ public class DownLoadServiceImpl implements DownLoadService {
             int tot = Integer.valueOf(redisStoreManger.get(totKey));
             int down = Integer.valueOf(redisStoreManger.get(downKey));
 
-            if (down < tot) {
+            if (tot <= 0 || down < tot) {
                 return false;
             }
         }

@@ -3,6 +3,7 @@ package com.qjq.crawler.download.timerjob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
 import org.slf4j.Logger;
@@ -33,6 +34,17 @@ public class TimerJobStrategyExecutor implements InitializingBean, ApplicationCo
         config.setDelay(1000l);
         TimerJobStrategy jobStrategy = new DefaultTimerJobStrategy();
         registerTimberJob(config, jobStrategy);
+
+        // 加载特定的定时任务
+        Map<String, TimerJobStrategy> map = applicationContext.getBeansOfType(TimerJobStrategy.class);
+
+        for (Map.Entry<String, TimerJobStrategy> m : map.entrySet()) {
+            TimerJobStrategy strategy = m.getValue();
+            TimerJobConfig config2 = new TimerJobConfig();
+            config2.setDelay(strategy.getDelay());
+            registerTimberJob(config2, strategy);
+        }
+
     }
 
     // 注册定时任务

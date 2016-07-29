@@ -26,8 +26,8 @@ public class HorCrawlerTest extends AbstractTest {
         crawlerConfig.setMaxDomain(500);
         VariablesField variablesField = new VariablesField();
         variablesField.setFieldName("code");
-        variablesField.setStartPoint(0L);
-        variablesField.setEndPoint(2L);
+        variablesField.setStartPoint(12L);
+        variablesField.setEndPoint(13L);
         List<VariablesField> fields = new ArrayList<VariablesField>();
         fields.add(variablesField);
         crawlerConfig.setVariablesFields(fields);

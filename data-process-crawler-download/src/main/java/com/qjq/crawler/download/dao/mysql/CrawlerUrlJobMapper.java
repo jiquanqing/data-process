@@ -39,7 +39,6 @@ public interface CrawlerUrlJobMapper {
      *
      * @mbggenerated Fri Jul 22 17:15:26 CST 2016
      */
-    @Transactional
     int insert(CrawlerUrlJob record);
 
     /**

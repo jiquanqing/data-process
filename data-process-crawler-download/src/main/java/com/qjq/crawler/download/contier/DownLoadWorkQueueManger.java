@@ -21,6 +21,7 @@ public class DownLoadWorkQueueManger {
         workQueue.put(queueName, downLoadWorkQueue);
 
         redisStoreManger.hset(downLoadWorkQueue.getTotKey(), 0, downLoadWorkQueue.getCountTimeOut());
+        redisStoreManger.hset(downLoadWorkQueue.getDownKey(), 0, downLoadWorkQueue.getCountTimeOut());
 
         return downLoadWorkQueue;
     }
