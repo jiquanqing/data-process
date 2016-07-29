@@ -9,4 +9,10 @@ public class DefaultTimerJobStrategy implements TimerJobStrategy {
         System.out.println("我是定时任务");
     }
 
+    @Override
+    public Long getDelay() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

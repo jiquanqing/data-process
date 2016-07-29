@@ -6,4 +6,6 @@ public interface TimerJobStrategy {
     
     public void onTimerJob(TimerJobConfig timerJobConfig);
     
+    public Long getDelay();
+    
 }

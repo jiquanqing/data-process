@@ -6,6 +6,7 @@ import com.qjq.crawler.download.domain.CrawlerUrlJobExample;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface CrawlerUrlJobMapper {
     /**
@@ -38,6 +39,7 @@ public interface CrawlerUrlJobMapper {
      *
      * @mbggenerated Fri Jul 22 17:15:26 CST 2016
      */
+    @Transactional
     int insert(CrawlerUrlJob record);
 
     /**
