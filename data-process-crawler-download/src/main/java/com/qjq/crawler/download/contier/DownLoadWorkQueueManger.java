@@ -26,6 +26,21 @@ public class DownLoadWorkQueueManger {
         return downLoadWorkQueue;
     }
 
+    //从redis中恢复内存数据
+    public void recoverWordQueue(String jobId) {
+        DownLoadWorkQueue downLoadWorkQueue = new DownLoadWorkQueue(jobId, -1, -1);
+        workQueue.put(jobId, downLoadWorkQueue);
+        
+        Integer tot = Integer.valueOf(redisStoreManger.get(downLoadWorkQueue.getTotKey()));
+        Integer down = Integer.valueOf(redisStoreManger.get(downLoadWorkQueue.getDownKey()));
+        
+        
+        redisStoreManger.hset(downLoadWorkQueue.getTotKey(), tot, downLoadWorkQueue.getCountTimeOut());
+        redisStoreManger.hset(downLoadWorkQueue.getDownKey(), down, downLoadWorkQueue.getCountTimeOut());
+
+        
+    }
+
     public Map<String, DownLoadWorkQueue> getWorkQueue() {
         return workQueue;
     }

@@ -1,5 +1,6 @@
 package com.qjq.crawler.download.jms.recvie;
 
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.qjq.crawler.download.contier.DownLoadWorkQueue;
+import com.qjq.crawler.download.contier.DownLoadWorkQueueManger;
 import com.qjq.crawler.download.service.DownLoadService;
 
 @Service
@@ -24,6 +27,8 @@ public class DownLoadJmsListenerStrategyImpl implements JmsListenerStrategy {
 
     @Autowired
     DownLoadService downLoadService;
+    @Autowired
+    DownLoadWorkQueueManger downLoadWorkQueueManger;
 
     ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(20, 100, 60, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<Runnable>(), Executors.defaultThreadFactory());
@@ -36,8 +41,12 @@ public class DownLoadJmsListenerStrategyImpl implements JmsListenerStrategy {
     @Override
     public void onMessage(String text) {
         logger.info(jmsQueue + "接收到下载mq消息:", text);
-      /*  if (!StringUtils.isEmpty(text)) {
+        if (!StringUtils.isEmpty(text)) {
             final DownLoadMessage downLoadMessage = UtilJson.readValue(text, DownLoadMessage.class);
+            Map<String, DownLoadWorkQueue> map = downLoadWorkQueueManger.getWorkQueue();
+            if (!map.containsKey(downLoadMessage.getJobId())) {         //恢复内存下载队列数据
+                downLoadWorkQueueManger.recoverWordQueue(downLoadMessage.getJobId());
+            }
             Integer deep = downLoadMessage.getDeep();
             if (deep == null)
                 deep = 1000;
@@ -54,7 +63,7 @@ public class DownLoadJmsListenerStrategyImpl implements JmsListenerStrategy {
                     logger.info("{}下载完成", Thread.currentThread().getName());
                 }
             });
-        }*/
+        }
     }
 
     public void setJmsQueue(String jmsQueue) {
