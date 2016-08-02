@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.qjq.crawler.domain.CrawlerJob;
 import com.qjq.crawler.download.contier.DownLoadWorkQueueManger;
 import com.qjq.crawler.download.dao.mysql.CrawlerJobMapper;
-import com.qjq.crawler.download.domain.CrawlerJob;
 import com.qjq.crawler.download.service.DownLoadService;
 
 /**

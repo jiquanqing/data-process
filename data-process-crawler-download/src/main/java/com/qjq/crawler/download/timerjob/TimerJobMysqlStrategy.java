@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.qjq.crawler.domain.CrawlerJob;
 import com.qjq.crawler.download.contier.DownLoadWorkQueue;
 import com.qjq.crawler.download.contier.DownLoadWorkQueueManger;
 import com.qjq.crawler.download.dao.mysql.CrawlerJobMapper;
 import com.qjq.crawler.download.dao.redis.RedisStoreManger;
-import com.qjq.crawler.download.domain.CrawlerJob;
 import com.qjq.crawler.download.domain.TimerJobConfig;
 
 @Service

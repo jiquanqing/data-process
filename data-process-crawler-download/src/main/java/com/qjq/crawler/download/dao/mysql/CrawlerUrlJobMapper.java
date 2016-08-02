@@ -1,7 +1,7 @@
 package com.qjq.crawler.download.dao.mysql;
 
-import com.qjq.crawler.download.domain.CrawlerUrlJob;
-import com.qjq.crawler.download.domain.CrawlerUrlJobExample;
+import com.qjq.crawler.domain.CrawlerUrlJob;
+import com.qjq.crawler.domain.CrawlerUrlJobExample;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.qjq.crawler.download.domain;
+package com.qjq.crawler.domain;
 
 import java.util.Date;
 

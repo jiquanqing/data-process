@@ -6,9 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.qjq.crawler.domain.CrawlerJob;
 import com.qjq.crawler.download.dao.mysql.CrawlerJobMapper;
 import com.qjq.crawler.download.dao.redis.RedisStoreManger;
-import com.qjq.crawler.download.domain.CrawlerJob;
 
 @Component
 public class DownLoadWorkQueueManger {

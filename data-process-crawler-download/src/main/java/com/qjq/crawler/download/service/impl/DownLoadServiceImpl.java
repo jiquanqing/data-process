@@ -13,14 +13,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.qjq.crawler.domain.CrawlerJob;
+import com.qjq.crawler.domain.CrawlerUrlJob;
 import com.qjq.crawler.download.contier.DownLoadWorkQueue;
 import com.qjq.crawler.download.contier.DownLoadWorkQueueManger;
 import com.qjq.crawler.download.dao.mongo.HtmlRepository;
 import com.qjq.crawler.download.dao.mysql.CrawlerJobMapper;
 import com.qjq.crawler.download.dao.mysql.CrawlerUrlJobMapper;
 import com.qjq.crawler.download.dao.redis.RedisStoreManger;
-import com.qjq.crawler.download.domain.CrawlerJob;
-import com.qjq.crawler.download.domain.CrawlerUrlJob;
 import com.qjq.crawler.download.jms.send.MessageSender;
 import com.qjq.crawler.download.service.DownLoadService;
 import com.qjq.crawler.download.service.ExtendsHtmlUrlService;

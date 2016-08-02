@@ -1,11 +1,12 @@
 package com.qjq.crawler.download.dao.mysql;
 
-import com.qjq.crawler.download.domain.CrawlerJob;
-import com.qjq.crawler.download.domain.CrawlerJobExample;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+
+import com.qjq.crawler.domain.CrawlerJob;
+import com.qjq.crawler.domain.CrawlerJobExample;
 
 public interface CrawlerJobMapper {
     /**
