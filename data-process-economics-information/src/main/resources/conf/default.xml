@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+	<template-site>
+		<site>http://wiki.hexun.com/</site>
+		<site>http://news.ifeng.com/</site>
+		<site>http://www.lunwencloud.com/</site>
+	</template-site>
+	<template>
+		<url>
+			<url-pattern>http://news.ifeng.com/</url-pattern>
+		</url>
+		<title-xpath>//*[@id="artical_topic"]</title-xpath>
+		<body-xpath></body-xpath>
+		<author-xpath>//*[@id="artical_sth"]/p/span[4]/span</author-xpath>
+		<date-xpath>//*[@id="artical_sth"]/p/span[1]</date-xpath>
+		<source-xpath>//*[@id="artical_sth"]/p/span[3]/span/a</source-xpath>
+	</template>
+	<template>
+		<url>
+			<url-pattern>http://wiki.hexun.com/</url-pattern>
+		</url>
+		<title-xpath>//h1[@class="title"]</title-xpath>
+		<body-xpath></body-xpath>
+		<author-xpath></author-xpath>
+		<date-xpath></date-xpath>
+		<source-xpath></source-xpath>
+	</template>
+	<template>
+		<url>
+			<url-pattern>http://www.lunwencloud.com/</url-pattern>
+		</url>
+		<title-xpath>//div[@class='news_hd']/h1</title-xpath>
+		<body-xpath>//div[@class='news_bd']</body-xpath>
+		<author-xpath>//div[@class='news_info']/span[1]</author-xpath>
+		<date-xpath>//div[@class='news_info']/span[2]</date-xpath>
+		<source-xpath>//*[@id="rso"]/div/div[1]/div/h3/a/@href</source-xpath>
+	</template>
+	
+	<template>
+		<url>
+			<url-pattern>http://www.gufen.com/</url-pattern>
+		</url>
+		<title-xpath>//*[@id="logo"]</title-xpath>
+		<body-xpath>//div[@class='news_bd']</body-xpath>
+		<author-xpath>//div[@class='news_info']/span[1]</author-xpath>
+		<date-xpath>//div[@class='news_info']/span[2]</date-xpath>
+		<source-xpath>//cite</source-xpath>
+	</template>
+	
+	<template>
+		<url>
+			<url-pattern>http://cn.bing.com/</url-pattern>
+		</url>
+		<title-xpath>//*[@id="sb_form"]</title-xpath>
+		<body-xpath>//div[@class='news_bd']</body-xpath>
+		<author-xpath>//div[@class='news_info']/span[1]</author-xpath>
+		<date-xpath>//div[@class='news_info']/span[2]</date-xpath>
+		<source-xpath>//a[@target="_blank"]/@href</source-xpath>
+	</template>
+
+
+</templates>
