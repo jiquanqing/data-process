@@ -16,6 +16,6 @@ public class JmsSendTest extends AbstractTest {
     public void testSend() {
         messageSender = (MessageSender) SpringContextUtil.getBean("messageSenderImpl");
         System.out.println(messageSender.toString());
-        messageSender.hander("test");
+        messageSender.hander("test", "Parse_Service_Job_Queue");
     }
 }

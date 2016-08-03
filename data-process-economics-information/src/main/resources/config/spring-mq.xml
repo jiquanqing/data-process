@@ -47,7 +47,7 @@
     </bean>
     
      <bean id="destination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg index="0" value="Crawler_Service_Job_Queue" />
+        <constructor-arg index="0" value="Parse_Service_Job_Queue" />
     </bean>
     
 	<!-- 消息订阅模式 -->  
