@@ -23,6 +23,7 @@
 	<context:property-placeholder location="classpath*:app.properties" />
 
 	<import resource="spring-mq.xml" />
+	<import resource="spring-mongo.xml" />
 	<import resource="spring-dao.xml" />
 
 	<aop:aspectj-autoproxy proxy-target-class="true" />
