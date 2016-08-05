@@ -194,8 +194,8 @@ public class DownLoadServiceImpl implements DownLoadService {
     @Override
     public String downLoadByUrl(String string) {
         String uid = UidUtils.getUid(string);
+        String content = null;
         try {
-            String content = null;
             try {
                 content = HttpRequest.sendGet(string, "");
             } catch (Exception e) {
@@ -217,6 +217,6 @@ public class DownLoadServiceImpl implements DownLoadService {
         } catch (Exception e) {
             logger.error("下载失败url={}", string, e);
         }
-        return uid;
+        return content;
     }
 }

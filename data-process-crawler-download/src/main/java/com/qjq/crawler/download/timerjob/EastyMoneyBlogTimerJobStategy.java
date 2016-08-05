@@ -1,6 +1,8 @@
 package com.qjq.crawler.download.timerjob;
 
-import org.data.process.model.HtmlObject;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.data.process.utils.UidUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +14,7 @@ import com.qjq.crawler.download.dao.mongo.HtmlRepository;
 import com.qjq.crawler.download.domain.TimerJobConfig;
 import com.qjq.crawler.download.jms.send.MessageSender;
 import com.qjq.crawler.download.service.DownLoadService;
-import com.qjq.crawler.download.utils.HttpRequest;
+import com.qjq.crawler.download.service.XpathService;
 
 /**
  * 
@@ -28,7 +30,7 @@ public class EastyMoneyBlogTimerJobStategy implements TimerJobStrategy {
 
     private static Logger logger = LoggerFactory.getLogger(EastyMoneyBlogTimerJobStategy.class);
 
-    private Long delay = 1000 * 60 * 10l; // 10分钟抓一次
+    private Long delay = 1000 * 60 * 10l; // 10分钟更新一次
 
     @Value("${eastyBolgUrls:''}")
     private String eastyBolgUrls; // 暂时采用配置文件方式，后续需要考虑动态更新 采用数据库存储 或者其他方式
@@ -42,6 +44,8 @@ public class EastyMoneyBlogTimerJobStategy implements TimerJobStrategy {
     MessageSender messageSender;
     @Autowired
     DownLoadService downLoadService;
+    @Autowired
+    XpathService xpathService;
 
     @Override
     public void onTimerJob(TimerJobConfig timerJobConfig) {
@@ -49,13 +53,29 @@ public class EastyMoneyBlogTimerJobStategy implements TimerJobStrategy {
         String strs[] = eastyBolgUrls.split(";");
         for (String string : strs) {
             try {
-                String uid = downLoadService.downLoadByUrl(string);
-                messageSender.hander(uid, notifyMqName); // 以后的扩展点，加入mq存储机制，怕数据丢失，进行一次备份
+                String content = downLoadService.downLoadByUrl(string);
+
+                List<String> extendUrls = getAllArticUrl(content);
+                for (String url : extendUrls) {
+                    String uid = UidUtils.getUid(url);
+                    if (htmlRepository.findOne(uid) == null) { // 如果mongo里面没有存在url才进行抓取
+                        content = downLoadService.downLoadByUrl(url);
+                        messageSender.hander(uid, notifyMqName); // 通知parse系统 ：
+                                                                 // 以后的扩展点，加入mq存储机制，怕数据丢失，进行一次备份
+                    }
+                }
                 logger.info("东财监听博客url={}刷新成功", string);
             } catch (Exception e) {
                 logger.error("定时下载失败 url={}", string, e);
             }
         }
+    }
+
+    public List<String> getAllArticUrl(String content) {
+        List<String> result = new ArrayList<String>();
+        String xpath = "//span[@class='title']//@href"; // 获取东财的url列表
+        result = xpathService.xpath(xpath, content);
+        return result;
     }
 
     @Override
