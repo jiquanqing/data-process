@@ -7,4 +7,6 @@ public interface DownLoadService {
     public void addSeed(String url, String jobId, Integer deep, Integer sleep);
 
     public void schudel(DownLoadMessage message);
+    
+    public String downLoadByUrl(String url);
 }
