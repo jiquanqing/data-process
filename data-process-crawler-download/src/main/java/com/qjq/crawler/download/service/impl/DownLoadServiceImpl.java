@@ -1,6 +1,5 @@
 package com.qjq.crawler.download.service.impl;
 
-import java.net.URI;
 import java.util.Date;
 import java.util.List;
 
@@ -208,12 +207,14 @@ public class DownLoadServiceImpl implements DownLoadService {
                     logger.error("url={}，下载失败", string);
                 }
             }
-            HtmlObject htmlObject = new HtmlObject();
-            htmlObject.setContent(content);
-            htmlObject.setDowntime(System.currentTimeMillis() + "");
-            htmlObject.setUid(uid);
-            htmlObject.setUrl(string);
-            htmlRepository.insert(htmlObject);
+            if (htmlRepository.findOne(uid) == null) {
+                HtmlObject htmlObject = new HtmlObject();
+                htmlObject.setContent(content);
+                htmlObject.setDowntime(System.currentTimeMillis() + "");
+                htmlObject.setUid(uid);
+                htmlObject.setUrl(string);
+                htmlRepository.insert(htmlObject);
+            }
         } catch (Exception e) {
             logger.error("下载失败url={}", string, e);
         }

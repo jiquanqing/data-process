@@ -60,8 +60,11 @@ public class EastyMoneyBlogTimerJobStategy implements TimerJobStrategy {
                     String uid = UidUtils.getUid(url);
                     if (htmlRepository.findOne(uid) == null) { // 如果mongo里面没有存在url才进行抓取
                         content = downLoadService.downLoadByUrl(url);
-                        messageSender.hander(uid, notifyMqName); // 通知parse系统 ：
-                                                                 // 以后的扩展点，加入mq存储机制，怕数据丢失，进行一次备份
+                        if (notifyMqName != null) {
+                            messageSender.hander(uid, notifyMqName); // 通知parse系统
+                                                                     // ：
+                                                                     // 以后的扩展点，加入mq存储机制，怕数据丢失，进行一次备份
+                        }
                     }
                 }
                 logger.info("东财监听博客url={}刷新成功", string);

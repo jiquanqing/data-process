@@ -11,11 +11,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
+import com.qjq.crawler.download.dao.mysql.CrawlerTimerJobMapper;
+import com.qjq.crawler.download.domain.CrawlerTimerJob;
+import com.qjq.crawler.download.domain.CrawlerTimerJobExample;
 import com.qjq.crawler.download.domain.TimerJobConfig;
 
 @EnableScheduling
@@ -27,13 +31,30 @@ public class TimerJobStrategyExecutor implements InitializingBean, ApplicationCo
     List<ScheduledFuture> futures = new ArrayList<ScheduledFuture>(); // 任务计划
 
     ApplicationContext applicationContext;
+    @Autowired
+    CrawlerTimerJobMapper crawlerTimerJobMapper;
 
     public void addStrategy() {
         // 读取数据库里面配置的定时任务
-        TimerJobConfig config = new TimerJobConfig();
-        config.setDelay(1000l);
-        TimerJobStrategy jobStrategy = new DefaultTimerJobStrategy();
-        registerTimberJob(config, jobStrategy);
+        CrawlerTimerJobExample crawlerTimerJobExample = new CrawlerTimerJobExample();
+        crawlerTimerJobExample.createCriteria().andStatusEqualTo(1);
+        List<CrawlerTimerJob> crawlerTimerJob = crawlerTimerJobMapper.selectByExample(crawlerTimerJobExample);
+        for (CrawlerTimerJob job : crawlerTimerJob) {
+            TimerJobConfig config = new TimerJobConfig();
+            config.setDelay(Long.valueOf(job.getDelay()));
+            config.setExpendsType(job.getExpendstype());
+            config.setJobId(job.getJobid());
+            config.setNoticeQueueName(job.getNoticequeuename());
+            config.setUrl(job.getUrl());
+            String xpaths[] = job.getXpath().split(";");
+            List<String> xpathLists = new ArrayList<String>();
+            for (String x : xpaths) {
+                xpathLists.add(x);
+            }
+            config.setXpath(xpathLists);
+            TimerJobStrategy jobStrategy = new DefaultTimerJobStrategy();
+            registerTimberJob(config, jobStrategy);
+        }
 
         // 加载特定的定时任务
         Map<String, TimerJobStrategy> map = applicationContext.getBeansOfType(TimerJobStrategy.class);

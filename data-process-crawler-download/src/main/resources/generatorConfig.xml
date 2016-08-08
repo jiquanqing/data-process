@@ -7,16 +7,15 @@ location="D:/java-dev/.m2/repository/mysql/mysql-connector-java/5.1.30/mysql-con
 		<jdbcConnection driverClass="org.gjt.mm.mysql.Driver"
 			connectionURL="jdbc:mysql://localhost:3306/data-process-platform?useUnicode=true" userId="root" password="123456" />
 	
-		<javaModelGenerator targetPackage="com.qjq.crawler.domain"
+		<javaModelGenerator targetPackage="com.qjq.crawler.download.domain"
 			targetProject="data-process-crawler-download" />
 		<sqlMapGenerator targetPackage="config.mybatis"
 			targetProject="data-process-crawler-download" />
 			
-		<javaClientGenerator targetPackage="com.qjq.crawler.dao.mysql"
+		<javaClientGenerator targetPackage="com.qjq.crawler.download.dao.mysql"
 			targetProject="data-process-crawler-download" type="XMLMAPPER" />
 	
-		<table tableName="crawler_job" domainObjectName="CrawlerJob"></table>
-		<table tableName="crawler_url_job" domainObjectName="CrawlerUrlJob"></table>
+		<table tableName="crawler_timer_job" domainObjectName="CrawlerTimerJob"></table>
 		<!-- <table tableName="crawler_job_user" domainObjectName="CrawlerJobUser"></table>
 		<table tableName="crawler_urllist" domainObjectName="CrawlerUrllist"></table>
 		<table tableName="crawler_user" domainObjectName="CrawlerUser"></table>
