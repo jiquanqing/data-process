@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
 public class HtmlRepository implements AbstractRepository, InitializingBean {
 
@@ -24,6 +23,10 @@ public class HtmlRepository implements AbstractRepository, InitializingBean {
     public void insert(HtmlObject htmlObject) {
 
         mongoTemplate.save(htmlObject, collectionName);
+    }
+
+    public void delete(String uid) {
+        mongoTemplate.remove(new Query(Criteria.where("uid").is(uid)), collectionName);
     }
 
     public void insert(HtmlObject htmlObject, String collectionName) {

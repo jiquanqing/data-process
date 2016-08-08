@@ -18,6 +18,7 @@ import com.qjq.crawler.download.domain.TimerJobConfig;
 import com.qjq.crawler.download.jms.send.MessageSender;
 import com.qjq.crawler.download.service.DownLoadService;
 import com.qjq.crawler.download.service.XpathService;
+import com.qjq.crawler.download.utils.SpringContextUtil;
 
 public class DefaultTimerJobStrategy implements TimerJobStrategy, ApplicationContextAware {
 
@@ -32,10 +33,11 @@ public class DefaultTimerJobStrategy implements TimerJobStrategy, ApplicationCon
     CrawlerUrlJobMapper crawlerUrlJobMapper;
 
     public void init() {
-        downLoadService = applicationContext.getBean("downLoadService", DownLoadService.class);
+        applicationContext = SpringContextUtil.getApplicationContext();
+        downLoadService = applicationContext.getBean("downLoadServiceImpl", DownLoadService.class);
         htmlRepository = applicationContext.getBean("htmlRepository", HtmlRepository.class);
-        messageSender = applicationContext.getBean("messageSender", MessageSender.class);
-        xpathService = applicationContext.getBean("xpathService", XpathService.class);
+        messageSender = applicationContext.getBean("messageSenderImpl", MessageSender.class);
+        xpathService = applicationContext.getBean("xpathServiceImpl", XpathService.class);
         crawlerUrlJobMapper = applicationContext.getBean("crawlerUrlJobMapper", CrawlerUrlJobMapper.class);
     }
 
@@ -50,14 +52,16 @@ public class DefaultTimerJobStrategy implements TimerJobStrategy, ApplicationCon
         for (String string : strs) {
             try {
                 String content = downLoadService.downLoadByUrl(string);
-                List<String> extendUrls = getAllArticUrl(content, timerJobConfig.getXpath());
-                for (String url : extendUrls) {
-                    String uid = UidUtils.getUid(url);
-                    if (htmlRepository.findOne(uid) == null) { // 如果mongo里面没有存在url才进行抓取
-                        content = downLoadService.downLoadByUrl(url);
-                        if (timerJobConfig.getNoticeQueueName() != null) {
-                            messageSender.hander(uid, timerJobConfig.getNoticeQueueName()); // 通知parse系统
-                            // ： 以后的扩展点，加入mq存储机制，怕数据丢失，进行一次备份
+                if (timerJobConfig.getExpendsType() == 2) {
+                    List<String> extendUrls = getAllArticUrl(content, timerJobConfig.getXpath());
+                    for (String url : extendUrls) {
+                        String uid = UidUtils.getUid(url);
+                        if (htmlRepository.findOne(uid) == null) { // 如果mongo里面没有存在url才进行抓取
+                            content = downLoadService.downLoadByUrl(url);
+                            if (timerJobConfig.getNoticeQueueName() != null) {
+                                messageSender.hander(uid, timerJobConfig.getNoticeQueueName()); // 通知parse系统
+                                // ： 以后的扩展点，加入mq存储机制，怕数据丢失，进行一次备份
+                            }
                         }
                     }
                 }
