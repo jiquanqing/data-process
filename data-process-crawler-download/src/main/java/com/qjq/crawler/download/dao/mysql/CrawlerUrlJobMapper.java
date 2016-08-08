@@ -1,12 +1,12 @@
 package com.qjq.crawler.download.dao.mysql;
 
-import com.qjq.crawler.domain.CrawlerUrlJob;
-import com.qjq.crawler.domain.CrawlerUrlJobExample;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.transaction.annotation.Transactional;
+
+import com.qjq.crawler.download.domain.CrawlerUrlJob;
+import com.qjq.crawler.download.domain.CrawlerUrlJobExample;
 
 public interface CrawlerUrlJobMapper {
     /**

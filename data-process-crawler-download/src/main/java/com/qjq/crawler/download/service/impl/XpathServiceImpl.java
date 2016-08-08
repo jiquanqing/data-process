@@ -8,9 +8,11 @@ import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.qjq.crawler.download.service.XpathService;
 
+@Service
 public class XpathServiceImpl implements XpathService {
 
     private static Logger logger = LoggerFactory.getLogger(XpathServiceImpl.class);
@@ -24,12 +26,12 @@ public class XpathServiceImpl implements XpathService {
             Object[] objarrtr = document.evaluateXPath(xpath);
             if (objarrtr != null && objarrtr.length > 0) {
                 for (Object obja : objarrtr) {
-                    TagNode tna = (TagNode) obja;
-                    String str = tna.getText().toString();
+                    String str = obja.toString();
                     result.add(str);
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return result;
     }

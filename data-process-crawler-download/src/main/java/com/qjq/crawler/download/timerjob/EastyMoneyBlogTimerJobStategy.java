@@ -35,7 +35,7 @@ public class EastyMoneyBlogTimerJobStategy implements TimerJobStrategy {
     @Value("${eastyBolgUrls:''}")
     private String eastyBolgUrls; // 暂时采用配置文件方式，后续需要考虑动态更新 采用数据库存储 或者其他方式
 
-    @Value("${eastyNotifyMqName:'Parse_Service_Job_Queue'}")
+    @Value("${eastyNotifyMqName:Parse_Service_Job_Queue}")
     private String notifyMqName;
 
     @Autowired

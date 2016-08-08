@@ -26,11 +26,15 @@ public class MongoTest extends AbstractTest {
         htmlRepository.insert(htmlObject);
         logger.info("测试结束");
     }
-    
+
     @Test
-    public void testQuery(){
-        HtmlObject htmlObject = htmlRepository.findOne("5986ff8df3ee50ce");
-        System.out.println(htmlObject.getContent());
-        System.out.println(htmlObject.getUrl());
+    public void testQuery() {
+        HtmlObject htmlObject = htmlRepository.findOne("5986ff8df3ee5ce");
+        if (htmlObject == null) {
+            System.out.println("null");
+        } else {
+            System.out.println(htmlObject.getContent());
+            System.out.println(htmlObject.getUrl());
+        }
     }
 }
