@@ -59,7 +59,7 @@ public class InformationDataProcessServiceImpl implements InformationDataProcess
         information.setCtime(new Date());
         information.setIsvalid(1);
         information.setSources(extractorPage.getPublishSource());
-        information.setTime(new Date(extractorPage.getPublishDate()));
+        information.setTime(extractorPage.getPublishDate());
         information.setTitle(extractorPage.getTitle());
 
         return information;

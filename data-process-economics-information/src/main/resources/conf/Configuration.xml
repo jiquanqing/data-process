@@ -7,6 +7,6 @@
 ]>
 
 <conf-list>
-	<conf name="default" class="com.cekasp.extractor.configuration.DefaultConfigurationParser">default.xml</conf>
+	<conf name="default" class="com.qjq.parser.extractor.configuration.DefaultConfigurationParser">default.xml</conf>
 </conf-list>
 

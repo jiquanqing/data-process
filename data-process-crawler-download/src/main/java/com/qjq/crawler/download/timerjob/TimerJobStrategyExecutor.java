@@ -56,7 +56,7 @@ public class TimerJobStrategyExecutor implements InitializingBean, ApplicationCo
             registerTimberJob(config, jobStrategy);
         }
 
-        // 加载特定的定时任务
+        /*// 加载特定的定时任务
         Map<String, TimerJobStrategy> map = applicationContext.getBeansOfType(TimerJobStrategy.class);
 
         for (Map.Entry<String, TimerJobStrategy> m : map.entrySet()) {
@@ -64,7 +64,7 @@ public class TimerJobStrategyExecutor implements InitializingBean, ApplicationCo
             TimerJobConfig config2 = new TimerJobConfig();
             config2.setDelay(strategy.getDelay());
             registerTimberJob(config2, strategy);
-        }
+        }*/
 
     }
 

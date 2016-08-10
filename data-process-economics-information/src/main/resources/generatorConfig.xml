@@ -9,11 +9,11 @@ location="D:/java-dev/.m2/repository/mysql/mysql-connector-java/5.1.30/mysql-con
 	
 		<javaModelGenerator targetPackage="com.qjq.economics.information.domain"
 			targetProject="data-process-economics-information" />
-		<sqlMapGenerator targetPackage="config.mybatis"
+		 <sqlMapGenerator targetPackage="config.mybatis"
 			targetProject="data-process-economics-information" />
 			
 		<javaClientGenerator targetPackage="com.qjq.economics.information.dao"
-			targetProject="data-process-economics-information" type="XMLMAPPER" />
+			targetProject="data-process-economics-information" type="XMLMAPPER" /> 
 	
 		<table tableName="parse_information" domainObjectName="ParseInformation"></table>
 		<!-- <table tableName="crawler_job_user" domainObjectName="CrawlerJobUser"></table>

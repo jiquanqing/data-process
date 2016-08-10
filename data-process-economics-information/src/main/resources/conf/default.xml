@@ -58,5 +58,15 @@
 		<source-xpath>//a[@target="_blank"]/@href</source-xpath>
 	</template>
 
+<template>
+	<url>
+		<url-pattern>http://blog.eastmoney.com/</url-pattern>
+	</url>
+	<title-xpath>//div[@class='articleTitle']/text()</title-xpath>
+	<date-xpath>//div[@class='articleTitle']/span</date-xpath>
+	<author-xpath>//div[@class='blognick']</author-xpath>
+	<body-xpath>//div[@class='articleBody']</body-xpath>
+	<source-xpath>//div[@class='logo']/a/@title</source-xpath>
+</template>
 
 </templates>

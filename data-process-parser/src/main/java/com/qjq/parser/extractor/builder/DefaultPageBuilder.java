@@ -64,8 +64,13 @@ public class DefaultPageBuilder extends AbstractPageBuilder {
             Object[] objarrtr = document.evaluateXPath(xpathBody);
             if (objarrtr != null && objarrtr.length > 0) {
                 for (Object obja : objarrtr) {
-                    TagNode tna = (TagNode) obja;
-                    String str = tna.getText().toString();
+                    String str = "";
+                    if (obja instanceof TagNode) {
+                        TagNode tna = (TagNode) obja;
+                        str = tna.getText().toString();
+                    }else{
+                        str = obja.toString();
+                    }
                     value.append(CommonUtil.removeHuanHang(str));
                 }
             }
@@ -84,8 +89,13 @@ public class DefaultPageBuilder extends AbstractPageBuilder {
             Object[] objarrtr = document.evaluateXPath(xpathAuthor);
             if (objarrtr != null && objarrtr.length > 0) {
                 for (Object obja : objarrtr) {
-                    TagNode tna = (TagNode) obja;
-                    String str = tna.getText().toString();
+                    String str = "";
+                    if (obja instanceof TagNode) {
+                        TagNode tna = (TagNode) obja;
+                        str = tna.getText().toString();
+                    }else{
+                        str = obja.toString();
+                    }
                     value.append(CommonUtil.removeHuanHang(str));
                 }
             }
@@ -104,8 +114,13 @@ public class DefaultPageBuilder extends AbstractPageBuilder {
             Object[] objarrtr = document.evaluateXPath(xpathDate);
             if (objarrtr != null && objarrtr.length > 0) {
                 for (Object obja : objarrtr) {
-                    TagNode tna = (TagNode) obja;
-                    String str = tna.getText().toString();
+                    String str = "";
+                    if (obja instanceof TagNode) {
+                        TagNode tna = (TagNode) obja;
+                        str = tna.getText().toString();
+                    }else{
+                        str = obja.toString();
+                    }
                     value.append(CommonUtil.removeHuanHang(str));
                 }
             }
@@ -124,8 +139,13 @@ public class DefaultPageBuilder extends AbstractPageBuilder {
             Object[] objarrtr = document.evaluateXPath(xpathSource);
             if (objarrtr != null && objarrtr.length > 0) {
                 for (Object obja : objarrtr) {
-                   // TagNode tna = (TagNode) obja;
-                    String str = obja.toString();
+                    String str = "";
+                    if (obja instanceof TagNode) {
+                        TagNode tna = (TagNode) obja;
+                        str = tna.getText().toString();
+                    }else{
+                        str = obja.toString();
+                    }
                     value.append(CommonUtil.removeHuanHang(str) + "\r\n");
                 }
             }
@@ -146,8 +166,13 @@ public class DefaultPageBuilder extends AbstractPageBuilder {
                 Object[] objarrtr = document.evaluateXPath(titleXpath);
                 if (objarrtr != null && objarrtr.length > 0) {
                     for (Object obja : objarrtr) {
-                        TagNode tna = (TagNode) obja;
-                        String str = tna.getText().toString();
+                        String str = "";
+                        if (obja instanceof TagNode) {
+                            TagNode tna = (TagNode) obja;
+                            str = tna.getText().toString();
+                        }else{
+                            str = obja.toString();
+                        }
                         value.append(CommonUtil.removeHuanHang(str));
                     }
                 }
