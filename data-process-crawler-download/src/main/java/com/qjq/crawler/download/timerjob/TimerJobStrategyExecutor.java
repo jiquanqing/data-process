@@ -21,6 +21,7 @@ import com.qjq.crawler.download.dao.mysql.CrawlerTimerJobMapper;
 import com.qjq.crawler.download.domain.CrawlerTimerJob;
 import com.qjq.crawler.download.domain.CrawlerTimerJobExample;
 import com.qjq.crawler.download.domain.TimerJobConfig;
+import com.qjq.crawler.download.domain.TimerJobStatus;
 
 @EnableScheduling
 public class TimerJobStrategyExecutor implements InitializingBean, ApplicationContextAware, DisposableBean {
@@ -54,17 +55,21 @@ public class TimerJobStrategyExecutor implements InitializingBean, ApplicationCo
             config.setXpath(xpathLists);
             TimerJobStrategy jobStrategy = new DefaultTimerJobStrategy();
             registerTimberJob(config, jobStrategy);
+
+            job.setJobstatus(TimerJobStatus.RUNNING.getCode());
+            crawlerTimerJobMapper.updateByPrimaryKey(job); // 更新mysql
+                                                           // 此定时任务已经在运行当中
         }
 
-        /*// 加载特定的定时任务
-        Map<String, TimerJobStrategy> map = applicationContext.getBeansOfType(TimerJobStrategy.class);
-
-        for (Map.Entry<String, TimerJobStrategy> m : map.entrySet()) {
-            TimerJobStrategy strategy = m.getValue();
-            TimerJobConfig config2 = new TimerJobConfig();
-            config2.setDelay(strategy.getDelay());
-            registerTimberJob(config2, strategy);
-        }*/
+        /*
+         * // 加载特定的定时任务 Map<String, TimerJobStrategy> map =
+         * applicationContext.getBeansOfType(TimerJobStrategy.class);
+         * 
+         * for (Map.Entry<String, TimerJobStrategy> m : map.entrySet()) {
+         * TimerJobStrategy strategy = m.getValue(); TimerJobConfig config2 =
+         * new TimerJobConfig(); config2.setDelay(strategy.getDelay());
+         * registerTimberJob(config2, strategy); }
+         */
 
     }
 
@@ -98,6 +103,13 @@ public class TimerJobStrategyExecutor implements InitializingBean, ApplicationCo
         for (ScheduledFuture future : futures) {
             future.cancel(true);
         }
+        //更新定时任务在mysql中的状态
+        CrawlerTimerJob record = new CrawlerTimerJob();
+        record.setJobstatus(TimerJobStatus.STOP.getCode());
+        CrawlerTimerJobExample example = new CrawlerTimerJobExample();
+        example.createCriteria().andJobstatusEqualTo(TimerJobStatus.RUNNING.getCode());
+        crawlerTimerJobMapper.updateByExampleSelective(record, example);
+
         logger.info("定时任务已经被注销");
     }
 
