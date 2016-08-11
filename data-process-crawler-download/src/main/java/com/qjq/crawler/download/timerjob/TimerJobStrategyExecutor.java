@@ -38,7 +38,7 @@ public class TimerJobStrategyExecutor implements InitializingBean, ApplicationCo
     public void addStrategy() {
         // 读取数据库里面配置的定时任务
         CrawlerTimerJobExample crawlerTimerJobExample = new CrawlerTimerJobExample();
-        crawlerTimerJobExample.createCriteria().andJobstatusEqualTo(1);
+        crawlerTimerJobExample.createCriteria().andJobstatusEqualTo(TimerJobStatus.NOT.getCode());
         List<CrawlerTimerJob> crawlerTimerJob = crawlerTimerJobMapper.selectByExample(crawlerTimerJobExample);
         for (CrawlerTimerJob job : crawlerTimerJob) {
             TimerJobConfig config = new TimerJobConfig();
