@@ -21,7 +21,6 @@ public class MysqlRefTimerJobStrategy implements TimerJobStrategy{
 
     private static Logger logger = LoggerFactory.getLogger(MysqlRefTimerJobStrategy.class);
 
-    @Autowired
     TimerJobStrategyExecutor timerJobStrategyExecutor;
     
     private Long delay = 60 * 1000 * 10l;//10分钟刷新
@@ -29,7 +28,7 @@ public class MysqlRefTimerJobStrategy implements TimerJobStrategy{
     @Override
     public void onTimerJob(TimerJobConfig timerJobConfig) {
         logger.info("刷新mysql配置的定时任务信息");
-        timerJobStrategyExecutor.addStrategy();
+       // timerJobStrategyExecutor.addStrategy();
     }
 
     @Override

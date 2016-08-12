@@ -13,8 +13,8 @@
 		<module>data-process-crawler-service</module>
 		<module>data-process-crawler-download</module>
 		<module>data-process-model</module>
-    <module>data-process-economics-information</module>
-    <module>data-process-parser</module>
+    	<module>data-process-economics-information</module>
+    	<module>data-process-parser</module>
   </modules>
 
 	<properties>
@@ -195,11 +195,17 @@
 			<version>2.4.2</version>
 		</dependency>
 
+		<dependency>
+				<groupId>org.freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+				<version>2.3.20</version>
+		</dependency>
+
 	</dependencies>
 
 	<repositories>
 		<repository>
-			<!-- Maven 自带的中央仓库使用的Id为central 如果其他的仓库声明也是用该Id 就会覆盖中央仓库的配�? -->
+			<!-- Maven 自带的中央仓库使用的Id为central 如果其他的仓库声明也是用该Id 就会覆盖中央仓库的配�? -->
 			<id>mvnrepository</id>
 			<name>mvnrepository</name>
 			<url>http://www.mvnrepository.com/</url>
