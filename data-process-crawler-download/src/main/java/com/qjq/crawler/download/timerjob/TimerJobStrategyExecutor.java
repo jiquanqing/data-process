@@ -3,7 +3,6 @@ package com.qjq.crawler.download.timerjob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
 import org.slf4j.Logger;
@@ -36,9 +35,10 @@ public class TimerJobStrategyExecutor implements InitializingBean, ApplicationCo
     CrawlerTimerJobMapper crawlerTimerJobMapper;
 
     public void addStrategy() {
+        logger.info("加载定时任务");
         // 读取数据库里面配置的定时任务
         CrawlerTimerJobExample crawlerTimerJobExample = new CrawlerTimerJobExample();
-        crawlerTimerJobExample.createCriteria().andJobstatusEqualTo(TimerJobStatus.NOT.getCode());
+        crawlerTimerJobExample.createCriteria().andJobstatusEqualTo(TimerJobStatus.STOP.getCode());
         List<CrawlerTimerJob> crawlerTimerJob = crawlerTimerJobMapper.selectByExample(crawlerTimerJobExample);
         for (CrawlerTimerJob job : crawlerTimerJob) {
             TimerJobConfig config = new TimerJobConfig();

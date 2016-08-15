@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.data.process.utils.UidUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.qjq.crawler.download.dao.mysql.CrawlerTimerJobMapper;
 import com.qjq.crawler.download.domain.CrawlerTimerJob;
 import com.qjq.crawler.download.domain.CrawlerTimerJobExample;
 
+@Service
 public class CrawlerTimerJobServiceImpl implements CrawlerTimerJobService {
 
     @Autowired
