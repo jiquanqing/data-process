@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.qjq.crawler.download.service.XpathService;
-
 @Service
 public class XpathServiceImpl implements XpathService {
 
@@ -53,5 +52,4 @@ public class XpathServiceImpl implements XpathService {
         }
         return null;
     }
-
 }
