@@ -121,7 +121,7 @@ public class DownLoadServiceImpl implements DownLoadService {
                 extendsUrl(content, message);
             }
         } catch (Exception e) {
-            logger.error("下载失败 url={}", message.getUrl());
+            logger.error("下载失败 url={}", message.getUrl(), e);
         }
     }
 
