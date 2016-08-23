@@ -13,7 +13,7 @@ public class DownLoadMessage implements Serializable {
     private String jobId;
     private String params;
     private Integer deep;
-    private Integer sleep;
+    private Long sleep;
 
     public String getUrl() {
         return url;
@@ -47,11 +47,11 @@ public class DownLoadMessage implements Serializable {
         this.deep = deep;
     }
 
-    public Integer getSleep() {
+    public Long getSleep() {
         return sleep;
     }
 
-    public void setSleep(Integer sleep) {
+    public void setSleep(Long sleep) {
         this.sleep = sleep;
     }
 

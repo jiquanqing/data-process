@@ -49,7 +49,7 @@ public class DownLoadServiceImpl implements DownLoadService {
     private int uidTimeOut = 60 * 60 * 24 * 10;
 
     @Override
-    public void addSeed(String url, String jobId, Integer deep, Integer sleep) {
+    public void addSeed(String url, String jobId, Integer deep, Long sleep) {
 
         DownLoadWorkQueue queue = workQueueManger.getWorkQueue().get(jobId);
 

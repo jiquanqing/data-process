@@ -70,12 +70,12 @@ public class CrawlerJobServiceJmsListenerStrategyImpl implements JmsListenerStra
                             String changParams = variablesField.getFieldName();
                             String url = crawlerMessage.getBaseUrl();
                             url = url.replaceAll(changParams, var.toString());
-                            downLoadService.addSeed(url, crawlerJob.getJobid(), 0, config.getSleepTime());
+                            downLoadService.addSeed(url, crawlerJob.getJobid(), 0, config.getSleepMills());
                         }
                     }
                 } else {
                     downLoadService.addSeed(crawlerMessage.getBaseUrl(), crawlerJob.getJobid(), crawlerJob.getMaxdepth(),
-                            config.getSleepTime());
+                            config.getSleepMills());
                 }
             }
 
