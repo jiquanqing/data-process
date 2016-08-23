@@ -17,7 +17,6 @@ import com.bubugao.diamond.client.AssertDiamondClient;
 import com.bubugao.diamond.client.DiamondAdminClient;
 import com.bubugao.diamond.client.DiamondClient;
 
-@Component
 public class ZkHandler {
 	
 	Logger logger = LoggerFactory.getLogger(this.getClass());

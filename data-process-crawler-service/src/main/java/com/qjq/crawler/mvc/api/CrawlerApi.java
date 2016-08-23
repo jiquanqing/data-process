@@ -103,7 +103,8 @@ public class CrawlerApi {
             List<VariablesField> variablesFields = new ArrayList<VariablesField>();
             variablesFields.add(variablesField);
             jobConfig.setVariablesFields(variablesFields);
-            crawlerJob.setJobconfig(UtilJson.writerWithDefaultPrettyPrinter(crawlerJob));
+            
+            crawlerJob.setJobconfig(UtilJson.writerWithDefaultPrettyPrinter(jobConfig));
             crawlerJob.setJobid(CommonUtils.creatJobId(baseUrl));
             crawlerJob.setJobstatus(CrawlerJobStatus.ready.getCode());
             crawlerJobService.insertCrawlerJob(crawlerJob); // 插入到数据库中
