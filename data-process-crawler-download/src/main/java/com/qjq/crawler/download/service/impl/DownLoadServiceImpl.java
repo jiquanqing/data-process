@@ -52,6 +52,10 @@ public class DownLoadServiceImpl implements DownLoadService {
     public void addSeed(String url, String jobId, Integer deep, Long sleep) {
 
         DownLoadWorkQueue queue = workQueueManger.getWorkQueue().get(jobId);
+        if (queue.getIsFinish()) {
+            logger.info("任务已经完成,jobId={}", jobId);
+            return;
+        }
 
         String uid = UidUtils.getUid(url);
         try {
@@ -62,6 +66,8 @@ public class DownLoadServiceImpl implements DownLoadService {
                     record.setJobid(jobId);
 
                     record.setJobstatus(CrawlerJobStatus.finish.getCode());
+
+                    queue.setIsFinish(true);
 
                     crawlerJobMapper.updateByPrimaryKeySelective(record);
                 }

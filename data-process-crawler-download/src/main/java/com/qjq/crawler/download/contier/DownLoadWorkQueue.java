@@ -11,6 +11,7 @@ public class DownLoadWorkQueue {
     private String queueName;
     private String totKey = "";
     private String downKey = "";
+    private Boolean isFinish = false;
 
     private int Max_Queue_Size = 10000000;
 
@@ -68,5 +69,13 @@ public class DownLoadWorkQueue {
 
     public void setDownKey(String downKey) {
         this.downKey = downKey;
+    }
+
+    public Boolean getIsFinish() {
+        return isFinish;
+    }
+
+    public void setIsFinish(Boolean isFinish) {
+        this.isFinish = isFinish;
     }
 }
