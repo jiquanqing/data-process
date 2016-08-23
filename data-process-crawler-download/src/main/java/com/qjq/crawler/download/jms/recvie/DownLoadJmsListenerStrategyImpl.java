@@ -47,11 +47,11 @@ public class DownLoadJmsListenerStrategyImpl implements JmsListenerStrategy {
             if (!map.containsKey(downLoadMessage.getJobId())) {         //恢复内存下载队列数据
                 downLoadWorkQueueManger.recoverWordQueue(downLoadMessage.getJobId());
             }
-            Integer deep = downLoadMessage.getDeep();
-            if (deep == null)
-                deep = 1000;
+            Long sleep = downLoadMessage.getSleep();
+            if (sleep == null)
+                sleep = 1000l;
             try {
-                Thread.sleep(Long.valueOf(deep));
+                Thread.sleep(sleep);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

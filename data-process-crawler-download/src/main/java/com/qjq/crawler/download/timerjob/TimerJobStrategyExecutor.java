@@ -3,6 +3,7 @@ package com.qjq.crawler.download.timerjob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
 import org.slf4j.Logger;
@@ -61,15 +62,15 @@ public class TimerJobStrategyExecutor implements InitializingBean, ApplicationCo
                                                            // 此定时任务已经在运行当中
         }
 
-        /*
-         * // 加载特定的定时任务 Map<String, TimerJobStrategy> map =
-         * applicationContext.getBeansOfType(TimerJobStrategy.class);
-         * 
-         * for (Map.Entry<String, TimerJobStrategy> m : map.entrySet()) {
-         * TimerJobStrategy strategy = m.getValue(); TimerJobConfig config2 =
-         * new TimerJobConfig(); config2.setDelay(strategy.getDelay());
-         * registerTimberJob(config2, strategy); }
-         */
+        // 加载特定的定时任务 
+        Map<String, TimerJobStrategy> map = applicationContext.getBeansOfType(TimerJobStrategy.class);
+
+        for (Map.Entry<String, TimerJobStrategy> m : map.entrySet()) {
+            TimerJobStrategy strategy = m.getValue();
+            TimerJobConfig config2 = new TimerJobConfig();
+            config2.setDelay(strategy.getDelay());
+            registerTimberJob(config2, strategy);
+        }
 
     }
 
@@ -103,7 +104,7 @@ public class TimerJobStrategyExecutor implements InitializingBean, ApplicationCo
         for (ScheduledFuture future : futures) {
             future.cancel(true);
         }
-        //更新定时任务在mysql中的状态
+        // 更新定时任务在mysql中的状态
         CrawlerTimerJob record = new CrawlerTimerJob();
         record.setJobstatus(TimerJobStatus.STOP.getCode());
         CrawlerTimerJobExample example = new CrawlerTimerJobExample();
