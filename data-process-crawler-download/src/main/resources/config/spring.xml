@@ -28,6 +28,7 @@
 	<import resource="spring-dao.xml" />
 	<import resource="spring-schedule.xml" />
 	<import resource="servlet-app.xml" />
+	
 
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 	<!-- 自动扫描(自动注入) -->

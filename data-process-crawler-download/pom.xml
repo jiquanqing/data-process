@@ -27,6 +27,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>data-process-platform</groupId>
+			<artifactId>data-process-framework</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
 			<groupId>net.htmlparser.jericho</groupId>
 			<artifactId>jericho-html</artifactId>
 			<version>3.1</version>

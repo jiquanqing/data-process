@@ -18,6 +18,29 @@
 		<param-name>log4jRefreshInterval</param-name>
 		<param-value>30000</param-value>
 	</context-param>
+	
+	<servlet>
+		<servlet-name>data-process-crawler-service</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				classpath:/config/servlet-app.xml
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>throwExceptionIfNoHandlerFound</param-name>
+			<param-value>
+				true
+			</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>data-process-crawler-service</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	
 	<filter>
 		<description>字符集过滤器</description>
 		<filter-name>encodingFilter</filter-name>

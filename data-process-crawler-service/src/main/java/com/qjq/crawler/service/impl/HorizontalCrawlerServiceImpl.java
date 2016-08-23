@@ -26,7 +26,7 @@ public class HorizontalCrawlerServiceImpl extends BaseCrawlerService implements 
 
     public void handle(CrawlerConfig horizontalCrawlerConfig) {
         String baseUrl = horizontalCrawlerConfig.getBaseUrl();
-        List<VariablesField> fields = horizontalCrawlerConfig.getVariablesFields();
+        /*List<VariablesField> fields = horizontalCrawlerConfig.getVariablesFields();
         
        
         JobConfig jobConfig = new JobConfig();
@@ -37,14 +37,14 @@ public class HorizontalCrawlerServiceImpl extends BaseCrawlerService implements 
         crawlerJob.setJobconfig(UtilJson.writerWithDefaultPrettyPrinter(jobConfig));
         crawlerJob.setUrllistid("");
         crawlerJob.setCtime(new Date());
-        crawlerJob.setMtime(new Date());
+        crawlerJob.setMtime(new Date());*/
 
         CrawlerMessage crawlerMessage = new CrawlerMessage();
         crawlerMessage.setBaseUrl(baseUrl);
-        crawlerMessage.setJobId(crawlerJob.getJobid());
+        crawlerMessage.setJobId(horizontalCrawlerConfig.getJobId());
         messageSender.hander(UtilJson.writerWithDefaultPrettyPrinter(crawlerMessage)); // 发送mq到队列里面
                                                                                        // 通知下载系统下载
-        crawlerJobService.insertCrawlerJob(crawlerJob);           //任务插入数据库
+       // crawlerJobService.insertCrawlerJob(crawlerJob);           //任务插入数据库
         
      /*   for (VariablesField variablesField : fields) {
             Long start = variablesField.getStartPoint();
