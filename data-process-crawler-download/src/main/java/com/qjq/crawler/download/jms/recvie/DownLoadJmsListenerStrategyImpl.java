@@ -44,8 +44,13 @@ public class DownLoadJmsListenerStrategyImpl implements JmsListenerStrategy {
         if (!StringUtils.isEmpty(text)) {
             final DownLoadMessage downLoadMessage = UtilJson.readValue(text, DownLoadMessage.class);
             Map<String, DownLoadWorkQueue> map = downLoadWorkQueueManger.getWorkQueue();
-            if (!map.containsKey(downLoadMessage.getJobId())) {         //恢复内存下载队列数据
+            if (!map.containsKey(downLoadMessage.getJobId())) { // 恢复内存下载队列数据
                 downLoadWorkQueueManger.recoverWordQueue(downLoadMessage.getJobId());
+            }
+            DownLoadWorkQueue downLoadWorkQueue = map.get(downLoadMessage.getJobId());
+            if (downLoadWorkQueue.getIsFinish()) {
+                logger.info("此任务已经完成 jobId={}", downLoadMessage.getJobId());
+                return;
             }
             Long sleep = downLoadMessage.getSleep();
             if (sleep == null)
