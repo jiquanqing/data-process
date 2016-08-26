@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import org.springframework.stereotype.Service;
 
 import com.qjq.crawler.download.service.ExtendsHtmlUrlService;
+import com.qjq.crawler.download.utils.UrlProcessUtils;
 
 @Service
 public class ExtendsHtmlUrlServiceImpl implements ExtendsHtmlUrlService {
@@ -33,10 +34,27 @@ public class ExtendsHtmlUrlServiceImpl implements ExtendsHtmlUrlService {
         return res;
     }
 
+    // 判断扩展的url是站内还是站外
+    public Boolean judeUrlIsHost(String baseUrl, String extendUrl) {
+        
+        baseUrl = UrlProcessUtils.getBaseUrl(baseUrl);
+        extendUrl = UrlProcessUtils.getBaseUrl(extendUrl);
+ 
+        if (baseUrl.equalsIgnoreCase(extendUrl)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public String filterUrl(String url) {
         url = url.replaceAll("\"", "");
         url = url.replaceAll("'", "");
         url = url.trim();
         return url;
+    }
+    public static void main(String[] args) {
+        ExtendsHtmlUrlServiceImpl extendsHtmlUrlServiceImpl = new ExtendsHtmlUrlServiceImpl();
+        System.out.println(extendsHtmlUrlServiceImpl.judeUrlIsHost("http://www.baidu.com", "www.baidu.com/blog"));
     }
 }

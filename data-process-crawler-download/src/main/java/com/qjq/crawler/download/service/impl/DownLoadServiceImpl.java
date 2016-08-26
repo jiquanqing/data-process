@@ -25,6 +25,7 @@ import com.qjq.crawler.download.jms.send.MessageSender;
 import com.qjq.crawler.download.service.DownLoadService;
 import com.qjq.crawler.download.service.ExtendsHtmlUrlService;
 import com.qjq.crawler.download.utils.HttpRequest;
+import com.qjq.crawler.download.utils.UrlProcessUtils;
 
 @Service
 public class DownLoadServiceImpl implements DownLoadService {
@@ -133,8 +134,8 @@ public class DownLoadServiceImpl implements DownLoadService {
 
     public void extendsUrl(String content, DownLoadMessage downLoadMessage) {
         List<String> extendUrls = extendsHtmlUrlService.handle(content);
-        String baseUrl = getBaseUrl(downLoadMessage.getUrl()); // 得到域名
-        int baseDeep = getUrlDeep(downLoadMessage.getUrl());
+        String baseUrl = UrlProcessUtils.getBaseUrl(downLoadMessage.getUrl()); // 得到域名
+        int baseDeep = UrlProcessUtils.getUrlDeep(downLoadMessage.getUrl());
         for (String extendUrl : extendUrls) {
             if (!extendUrl.startsWith("http")) {
                 if (extendUrl.startsWith("/")) {
@@ -143,26 +144,13 @@ public class DownLoadServiceImpl implements DownLoadService {
                     extendUrl = baseUrl + "/" + extendUrl;
                 }
             }
-            int curDeep = getUrlDeep(extendUrl);
-            if (curDeep >= baseDeep && curDeep - baseDeep <= downLoadMessage.getDeep()) {
-                addSeed(extendUrl, downLoadMessage.getJobId(), downLoadMessage.getDeep(), downLoadMessage.getSleep());
+            if (extendsHtmlUrlService.judeUrlIsHost(baseUrl, extendUrl)) { // 是站内扩展
+                int curDeep = UrlProcessUtils.getUrlDeep(extendUrl);
+                if (curDeep >= baseDeep && curDeep - baseDeep <= downLoadMessage.getDeep()) {
+                    addSeed(extendUrl, downLoadMessage.getJobId(), downLoadMessage.getDeep(), downLoadMessage.getSleep());
+                }
             }
         }
-    }
-
-    public int getUrlDeep(String url) {
-        char s[] = url.toCharArray();
-        int deep = 0;
-        for (int i = 0; i < s.length; i++) {
-            if (s[i] == '/')
-                deep++;
-        }
-        return deep;
-    }
-
-    public String getBaseUrl(String url) {
-        String base = url.substring(0, url.indexOf("/"));
-        return base;
     }
 
     private Boolean isEnd(DownLoadWorkQueue workQueue, String jobId) {
@@ -226,4 +214,5 @@ public class DownLoadServiceImpl implements DownLoadService {
         }
         return content;
     }
+
 }
