@@ -15,9 +15,8 @@
 		<module>data-process-model</module>
 		<module>data-process-economics-information</module>
 		<module>data-process-parser</module>
-    <module>data-process-framework</module>
-    <module>data-process-text-analysis</module>
-    <module>data-process-word-analysis-service</module>
+    	<module>data-process-framework</module>
+    	<module>data-process-word-analysis-service</module>
   </modules>
 
 	<properties>
@@ -303,7 +302,7 @@
 	</dependencies>
 	<repositories>
 		<repository>
-			<!-- Maven 自带的中央仓库使用的Id为central 如果其他的仓库声明也是用该Id 就会覆盖中央仓库的配�? -->
+			<!-- Maven 自带的中央仓库使用的Id为central 如果其他的仓库声明也是用该Id 就会覆盖中央仓库的配�? -->
 			<id>mvnrepository</id>
 			<name>mvnrepository</name>
 			<url>http://www.mvnrepository.com/</url>
