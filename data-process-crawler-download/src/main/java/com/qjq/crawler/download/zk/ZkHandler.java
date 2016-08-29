@@ -11,12 +11,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.bubugao.diamond.client.AssertDiamondClient;
 import com.bubugao.diamond.client.DiamondAdminClient;
 import com.bubugao.diamond.client.DiamondClient;
 
+@Service
 public class ZkHandler {
 	
 	Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -57,6 +59,7 @@ public class ZkHandler {
 		userPwdMap.put(root.split(":")[0], root.split(":")[1]);
 		userPwdMap.put(appAdmin.split(":")[0], appAdmin.split(":")[1]);
 		userPwdMap.put("appServer" + appId, appServer.split(":")[1]);
+		userPwdMap.put("client", "");
 		adminClient.setUserPwdMap(userPwdMap);
 		adminClient.addAuthInfo("root",userPwdMap.get("root"));
 		adminClient.addAuthInfo(appAdmin + appId,userPwdMap.get(appAdmin + appId));
@@ -126,7 +129,7 @@ public class ZkHandler {
 	    ZkParam[] paramArray = ZkParam.values();
 	    for (ZkParam zkParam : paramArray) {
 	        String paramValue = properties.getProperty(zkParam.getKey());
-	        if(StringUtils.isEmpty(paramValue)){
+	        if(!StringUtils.isEmpty(paramValue)){
 	            ZkParamContext.updateParam(zkParam, paramValue);
 	            logger.info("初始化zkParam({})为{}", zkParam.getDesc(), paramValue);
 	        }
