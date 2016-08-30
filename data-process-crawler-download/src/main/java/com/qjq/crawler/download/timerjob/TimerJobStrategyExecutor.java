@@ -22,6 +22,7 @@ import com.qjq.crawler.download.domain.CrawlerTimerJob;
 import com.qjq.crawler.download.domain.CrawlerTimerJobExample;
 import com.qjq.crawler.download.domain.TimerJobConfig;
 import com.qjq.crawler.download.domain.TimerJobStatus;
+import com.qjq.data.process.zk.DiamondClient;
 
 @EnableScheduling
 public class TimerJobStrategyExecutor implements InitializingBean, ApplicationContextAware, DisposableBean {
@@ -34,42 +35,48 @@ public class TimerJobStrategyExecutor implements InitializingBean, ApplicationCo
     ApplicationContext applicationContext;
     @Autowired
     CrawlerTimerJobMapper crawlerTimerJobMapper;
+    @Autowired
+    DiamondClient diamondClient;
 
     public void addStrategy() {
-        logger.info("加载定时任务");
-        // 读取数据库里面配置的定时任务
-        CrawlerTimerJobExample crawlerTimerJobExample = new CrawlerTimerJobExample();
-        crawlerTimerJobExample.createCriteria().andJobstatusEqualTo(TimerJobStatus.STOP.getCode());
-        List<CrawlerTimerJob> crawlerTimerJob = crawlerTimerJobMapper.selectByExample(crawlerTimerJobExample);
-        for (CrawlerTimerJob job : crawlerTimerJob) {
-            TimerJobConfig config = new TimerJobConfig();
-            config.setDelay(Long.valueOf(job.getDelay()));
-            config.setExpendsType(job.getExpendstype());
-            config.setJobId(job.getJobid());
-            config.setNoticeQueueName(job.getNoticequeuename());
-            config.setUrl(job.getUrl());
-            String xpaths[] = job.getXpath().split(";");
-            List<String> xpathLists = new ArrayList<String>();
-            for (String x : xpaths) {
-                xpathLists.add(x);
+        if (diamondClient.isAppMaster()) {
+            logger.info("该机器是master加载定时任务");
+            // 读取数据库里面配置的定时任务
+            CrawlerTimerJobExample crawlerTimerJobExample = new CrawlerTimerJobExample();
+            crawlerTimerJobExample.createCriteria().andJobstatusEqualTo(TimerJobStatus.STOP.getCode());
+            List<CrawlerTimerJob> crawlerTimerJob = crawlerTimerJobMapper.selectByExample(crawlerTimerJobExample);
+            for (CrawlerTimerJob job : crawlerTimerJob) {
+                TimerJobConfig config = new TimerJobConfig();
+                config.setDelay(Long.valueOf(job.getDelay()));
+                config.setExpendsType(job.getExpendstype());
+                config.setJobId(job.getJobid());
+                config.setNoticeQueueName(job.getNoticequeuename());
+                config.setUrl(job.getUrl());
+                String xpaths[] = job.getXpath().split(";");
+                List<String> xpathLists = new ArrayList<String>();
+                for (String x : xpaths) {
+                    xpathLists.add(x);
+                }
+                config.setXpath(xpathLists);
+                TimerJobStrategy jobStrategy = new DefaultTimerJobStrategy();
+                registerTimberJob(config, jobStrategy);
+
+                job.setJobstatus(TimerJobStatus.RUNNING.getCode());
+                crawlerTimerJobMapper.updateByPrimaryKey(job); // 更新mysql
+                                                               // 此定时任务已经在运行当中
             }
-            config.setXpath(xpathLists);
-            TimerJobStrategy jobStrategy = new DefaultTimerJobStrategy();
-            registerTimberJob(config, jobStrategy);
 
-            job.setJobstatus(TimerJobStatus.RUNNING.getCode());
-            crawlerTimerJobMapper.updateByPrimaryKey(job); // 更新mysql
-                                                           // 此定时任务已经在运行当中
-        }
+            // 加载特定的定时任务
+            Map<String, TimerJobStrategy> map = applicationContext.getBeansOfType(TimerJobStrategy.class);
 
-        // 加载特定的定时任务 
-        Map<String, TimerJobStrategy> map = applicationContext.getBeansOfType(TimerJobStrategy.class);
-
-        for (Map.Entry<String, TimerJobStrategy> m : map.entrySet()) {
-            TimerJobStrategy strategy = m.getValue();
-            TimerJobConfig config2 = new TimerJobConfig();
-            config2.setDelay(strategy.getDelay());
-            registerTimberJob(config2, strategy);
+            for (Map.Entry<String, TimerJobStrategy> m : map.entrySet()) {
+                TimerJobStrategy strategy = m.getValue();
+                TimerJobConfig config2 = new TimerJobConfig();
+                config2.setDelay(strategy.getDelay());
+                registerTimberJob(config2, strategy);
+            }
+        } else {
+            logger.info("该机器不是master，不启动定时任务");
         }
 
     }

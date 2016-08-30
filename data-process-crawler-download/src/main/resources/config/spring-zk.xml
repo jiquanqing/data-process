@@ -11,7 +11,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-	<bean class="com.bubugao.diamond.client.spring.DiamondPropertySourcesPlaceholderConfigurer">
+	<bean class="com.qjq.data.process.zk.DiamondPropertySourcesPlaceholderConfigurer">
 		<property name="ignoreResourceNotFound" value="true"/>
 		<property name="fileEncoding" value="UTF-8"/>
 		<property name="locations">
@@ -21,5 +21,5 @@
 			</array>
 		</property>
 	</bean>
-	<bean class="com.bubugao.diamond.client.DiamondAdminClient"/>
+	<bean class="com.qjq.data.process.zk.DiamondAdminClient"/>
 </beans>

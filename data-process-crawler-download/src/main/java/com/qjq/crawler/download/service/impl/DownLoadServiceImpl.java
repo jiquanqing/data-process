@@ -174,7 +174,7 @@ public class DownLoadServiceImpl implements DownLoadService {
             int tot = Integer.valueOf(redisStoreManger.get(totKey));
             int down = Integer.valueOf(redisStoreManger.get(downKey));
 
-            if (tot <= 0 || down < tot) {
+            if (tot <= 5 || down < tot) {
                 return false;
             }
         }

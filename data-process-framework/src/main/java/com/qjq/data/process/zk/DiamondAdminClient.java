@@ -1,4 +1,3 @@
-/** Copyright 2013-2023 步步高商城. */
 package com.qjq.data.process.zk;
 
 import java.security.NoSuchAlgorithmException;
