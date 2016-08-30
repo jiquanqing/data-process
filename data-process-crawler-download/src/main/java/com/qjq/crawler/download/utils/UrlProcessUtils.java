@@ -1,6 +1,5 @@
 package com.qjq.crawler.download.utils;
 
-import com.qjq.crawler.download.service.impl.DownLoadServiceImpl;
 
 public class UrlProcessUtils {
     public static int getUrlDeep(String url) {
@@ -10,6 +9,10 @@ public class UrlProcessUtils {
             if (s[i] == '/')
                 deep++;
         }
+        if (url.startsWith("http://"))
+            deep -= 2;
+        if (url.endsWith("/"))
+            deep -= 1;
         return deep;
     }
 
@@ -29,5 +32,8 @@ public class UrlProcessUtils {
         System.out.println(getBaseUrl("www.baidu.com"));
         System.out.println(getBaseUrl("http://www.baidu.com/p/fsd"));
         System.out.println(getBaseUrl("http://www.baidu.com/"));
+
+        System.out.println(getUrlDeep("blog.sina.com.cn/lm/stock/"));
+        System.out.println(getUrlDeep("http://blog.sina.com.cn/u/1092849864"));
     }
 }
